@@ -1,0 +1,73 @@
+@import "base.scss";
+
+#userinfoApp,
+#editInfo {
+    @include app;
+}
+
+//编辑资料页面
+.personInfo {
+    flex: 1;
+    overflow: auto;
+
+    span {
+        width: 60px;
+        color: #999999;
+        font-weight: 400;
+    }
+
+    input,
+    select,
+    textarea {
+        height: 22px !important;
+        border: 1px solid #ccc !important;
+        text-indent: 5px
+    }
+
+    form {
+        padding-top: 15px;
+        padding-left: 10px;
+        padding-right: 20px;
+
+        .top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .info1 {
+                margin-bottom: 15px;
+
+                input,
+                select {
+                    width: 102px;
+                    margin-left: 18px;
+                }
+            }
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+
+            li {
+                margin-bottom: 15px;
+                display: flex;
+
+                input,
+                textarea {
+                    flex: 1;
+                }
+
+                textarea {
+                    height: 42px !important;
+                }
+            }
+        }
+    }
+}
+
+// footer {
+//     height: 40px;
+    @include buttonAction;
+    // background: $eee;
+// }

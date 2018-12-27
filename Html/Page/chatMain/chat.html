@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../../static/css/normalize.css">
+	<link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+	<link rel="stylesheet" href="../../static/css/chat.min.css">
+	<title>聊天窗口</title>
+	<script src="/Plugs/Module/require.js" data-main="./chat"></script>
+</head>
+
+<body>
+	<div id="chatMainApp" v-cloak @click="showEmojiWrap=false">
+		<header>
+			<div class="chat-user">
+				<span class="item-img" style="background-image: url(../../static/images/head.png)" @click="openPersonalFile"></span>
+				<div class="iteminfo">
+					<h4 v-if='userInfo.Remark'>{{userInfo.Remark}}</h4>
+					<h4 v-else>{{userInfo.Nick}}</h4>
+					<p>{{userInfo.Vsign}}</p>
+				</div>
+			</div>
+			<win-setting :win="['mini', 'max', 'closeCurrent']"></win-setting>
+		</header>
+		<main>
+			<div class="chat-main">
+				<div class="chat-wrap" id="chat">
+					<div class="more" v-show="lookMore">
+						<span @click="moreRecord" class="moreRecord">查看更多消息</span>
+					</div>
+					<div class="history" v-show="history">
+						<span>更多消息请在消息记录中查询， </span>
+						<span class="historyRecord" @click="messageLog">打开消息记录</span>
+					</div>
+					<ul class="chat-list" id="chatList">
+						<template v-if="Object.keys(chatList).length &gt; 0">
+							<li v-for="(info,index) of chatList[userInfo.ID]" class="chat-item" :class="{ 'mySend': info.Dir == 0, 'otherSend': info.Dir == 1 }">
+								<div class="chatHead" v-if="info.Dir == 1" style="background: url(../../static/images/headp.png) center/contain;"></div>
+								<div class="chatHead" v-else style="background: url(../../static/images/head.png) center/contain;"></div>
+								<span class="fail" :title="info.ErrMsg" v-if="info.Dir == 1 && info.ErrMsg"><i class="iconfont icon-point"></i></span>
+								<span class="chat-content" v-if="info.Type == 0" @contextmenu="msg_contextmenu(event, info, index, 'chatList')"
+								 v-html="emotion(info)" :class="{loading: info.MsgStatus == 0}">
+								</span>
+								<span class="chat-content" v-if="info.Type == 4" style="min-width: 240px;">
+									<div class="shareCard">
+										<p class="recommend">推荐联系人</p>
+										<div class="share">
+											<span class="headImg"></span>
+											<div class="text">
+												<p>{{info.Msg.split('-')[1]}}</p>
+												<p>账号: {{info.Msg.split('-')[0]}}</p>
+											</div>
+										</div>
+										<ul class="open">
+											<li @click="openPersonalFile" class="handle">查看</li>
+											<li @click="transmitShare" class="handle">转发</li>
+										</ul>
+									</div>
+								</span>
+								<span class="chat-content" v-if="info.Type == 2" style="min-width: 240px;" @contextmenu="file_contextmenu(info, index)">
+									<div class="file">
+										<div class="img"></div>
+										<div class="fileInfo">
+											<h4>{{fileName(info.Msg)}}</h4>
+											<p v-if="info.Dir == 1">接收文件{{info.Msg.split("=")[1]}}</p>
+											<p v-if="info.Dir == 0">成功发送文件</p>
+										</div>
+									</div>
+									<ul class="open">
+										<li @click="openFile(info.Msg)">打开</li>
+										<li @click="openDir(info.Msg)">打开文件夹</li>
+									</ul>
+								</span>
+							</li>
+						</template>
+					</ul>
+				</div>
+				<div class="session-send" id="send">
+					<ul class="send-setting">
+						<li title="选择表情" @click.stop="showEmoji(showEmojiWrap=!showEmojiWrap)" unselectable="on" onmousedown="return false;">
+							<span class="img emojiImg"></span>
+						</li>
+						<li title="截图" @click="screenshot">
+							<span class="img shot"></span>
+						</li>
+						<li title="震动" @click="shake(event)">
+							<span class="img shake"></span>
+						</li>
+						<li title="发送图片" @click="sendImg(event)">
+							<span class="img sendImg"></span>
+						</li>
+						<li title="选择文件" @click="sendFile(event)">
+							<span class="img sendFile"></span>
+						</li>
+						<!-- <li title="选择字体" @click.stop="showFontSize = !showFontSize">
+							<select @change.stop="selectFont()" class="selectFont" v-show="showFontSize">
+								<option v-for="size in 5" :value="(size + 11)">{{size+11}}</option>
+							</select>
+							<span class="img font"></span>
+						</li> -->
+						<li title="消息记录" @click="messageLog(historyRecord=!historyRecord)">
+							<span class="img record"></span>
+						</li>
+					</ul>
+					<div type="text" class="send-info" @keydown="sendMessage" id="message" @contextmenu="send_contextmenu()"
+					 contentEditable="true"></div>
+					<div class="session-setting">
+						<ul class="send-close tc">
+							<li class="close-session" @click="Me.Close(true)">关闭</li>
+							<li class="send-message" @click="sendMessage">发送(S)</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="chatRight">
+				{{historyRecord}}{{isUploadFile}}
+				<div class="userinfo" v-show="!historyRecord && !isUploadFile">
+					<ul class="person-info">
+						<li>账号: {{userInfo.ID}}</li>
+						<li>昵称: {{userInfo.Nick}}</li>
+						<li>分组: {{userInfo.GroupID}}</li>
+						<li>性别: {{userInfo.Sex == 0 ? '女' : '男'}}</li>
+						<li>血型: {{userInfo.BloodType}}</li>
+						<li>生日: {{userInfo.Birthday}}</li>
+						<li>所在地: {{userInfo.HomeTown}}</li>
+						<li>学校: {{userInfo.School}}</li>
+						<li>个人说明: {{userInfo.Vsign}}</li>
+					</ul>
+					<button @click="openPersonalFile">查看资料</button>
+				</div>
+				<div class="messageLog" v-show="isUploadFile || historyRecord">
+					<div class="historyTitle">
+						<span class="commonTitle">消息记录</span>
+						<span class="close" v-if="historyRecord" @click="cancle"></span>
+					</div>
+					<div class="uploadFile" v-show="isUploadFile">
+						<ul class="uploadFileList">
+							<li v-for="(item, index) in uploadFileList">
+								<p>{{fileName(item.Name)}}({{postSize(item.CountSize)}})</p>
+								<progress :value="item.CurSize" :max="item.CountSize" class="progress"></progress>
+								<p>传输速度: {{postSize(item.SecSize)}}/s</p>
+							</li>
+						</ul>
+						<!-- <div class="uploadAction">
+							<span>全另存为</span>
+						</div> -->
+					</div>
+					<div class="historyWrap" v-show="historyRecord">
+						<div class="historyMain">
+							<ul class="historyType">
+								<li v-for="(item, index) in historyType" @click="(historyIndex= index)" :class="{active: historyIndex == index}">{{item}}</li>
+							</ul>
+							<ul class=" historyList chat-list" id="historyList">
+								<template v-if="Object.keys(historyList).length &gt; 0">
+									<li v-for="(info,index) of historyList[userInfo.ID]" class="chat-item">
+										<p>
+											<span class="chat-name" v-if="info.Dir == 1" style="color: #0033FF;">{{userInfo.Remark ? userInfo.Remark :
+												userInfo.Nick}}</span>
+											<span class="chat-name" v-if="info.Dir == 0" style="color: #009933;">{{userInfo.MyNick}}</span>
+											<span class="chat-date" :style="{color: info.Dir == 1 ? '#009933' : '#009933'}">{{new
+												Date().Format('yyyy-MM-dd hh:mm:ss', info.MsgId)}}</span>
+										</p>
+										<pre class="chat-content" v-if="info.Type == 0" style="white-space:pre-wrap;" @contextmenu="msg_contextmenu($event, info, index)"
+										 v-html="emotion(info)"></pre>
+										<span class="chat-content" v-if="info.Type == 2" style="min-width: 240px;border:1px solid #eee;" @contextmenu="file_contextmenu($event, info, index)">
+											<div class="file">
+												<div class="img"></div>
+												<div class="fileInfo">
+													<h4>{{fileName(info.Msg)}}</h4>
+													<p v-if="info.Dir == 1">接收文件{{info.Msg.split("=")[1]}}</p>
+													<p v-if="info.Dir == 0">成功发送文件</p>
+												</div>
+											</div>
+											<ul class="open">
+												<li @click="openFile(info.Msg)">打开</li>
+												<li @click="openDir(info.Msg)">打开文件夹</li>
+											</ul>
+										</span>
+									</li>
+								</template>
+							</ul>
+						</div>
+						<div class="historyFooter">
+							<div class="searchHistory"></div>
+							<!-- <div class="calendar"></div> -->
+							<ul class="historyAction">
+								<!-- <li>首页</li> -->
+								<li @click="historyAction" class="active" :class="{disable: isFirst}">上一页</li>
+								<li @click="historyAction" class="active" :class="{disable: isLast}">下一页</li>
+								<!-- <li>尾页</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="emoji-wrap" id="emoji" v-show="showEmojiWrap" unselectable="on" onmousedown="return false;">
+				<h4>{{emojiTitle}}</h4>
+				<ul class="emoji-list" v-if="showEmojiList">
+					<li @click="selectEmoji(emoji, text)" v-for="(emoji, text) in emojiList">
+						<span class="img" :style="'background-image: url(../../static/images/emotion/' + emoji + '.png)'" :title="text"></span>
+						<!-- <img :src="'../../static/images/emotion/'+emoji+'.png'" alt="" :title="text"> -->
+					</li>
+				</ul>
+				<!-- <ul class="collect-list" v-if="showMyCollect">
+					<li @click="optionCollect(collect, index)" v-for="(collect, index) in collects" @contextmenu="collect_contextmenu(collect, index)">
+						<img :src="collect.Url">
+					</li>
+				</ul> -->
+				<ul class="tab-emoji">
+					<li @click="cutEmoji" class="active" title="经典表情">
+						<span style="background: url(../../static/images/chat/emoji.png);width: 18px;height: 18px;"></span>
+					</li>
+					<!-- <li @click="cutCollect" title="我的收藏">
+						<i class="iconfont icon-shoucang"></i>
+					</li> -->
+				</ul>
+			</div>
+		</main>
+	</div>
+	<script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

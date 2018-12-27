@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/adminRecord.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./adminRecord"></script>
+    <title>管理记录</title>
+</head>
+
+<body>
+    <div id="adminRecord" v-cloak>
+        <win-header :header="{logo: '管理员操作记录', win: ['mini', 'closeCurrent']}"></win-header>
+        <main class="main">
+            <div class="operaPerson">
+                <span class="actioner">操作者</span>
+                <span class="actionTime">操作时间</span>
+                <span class="actionItem">操作项</span>
+            </div>
+            <ul class="operaInfo">
+                <li v-for="(item,index) in operaInfo">
+                    <span class="actioner">{{ item.operator }}</span>
+                    <span class="actionTime">{{ item.operaTime }}</span>
+                    <span class="actionItem">{{ item.operaItem }}</span>
+                </li>
+            </ul>
+            <div class="operaBottom">
+                <span>支持查看最近100条操作记录</span>
+                <button class="export">导出操作记录</button>
+                <button class="close" @click="closeCurrent">关闭</button>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

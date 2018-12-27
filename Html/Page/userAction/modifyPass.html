@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改密码</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/group.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./modifyPass"></script>
+</head>
+
+<body>
+    <div id="modifyPassApp" v-cloak>
+        <win-header :header="{logo: '修改密码', win: ['mini', 'closeCurrent']}"></win-header>
+        <main>
+            <div class="create-option">
+                <span class="space">原密码&nbsp;: </span>
+                <input @blur="oldCheck" id="originalPsd" type="password" placeholder="请输入当前密码">
+                <div class="tooltip" id="tip1"></div>
+            </div>
+            <div class="create-option">
+                <span class="space">新密码&nbsp;: </span>
+                <input @blur="verificationNew" id="password1" type="password" placeholder="请输入新密码">
+                <div class="tooltip" id="tip2"></div>
+            </div>
+            <div class="create-option">
+                <span>确认密码 : </span>
+                <input @blur="confirm" id="password2" type="password" placeholder="请确认新密码">
+                <div class="tooltip" id="tip3"></div>
+            </div>
+        </main>
+        <footer class="footerAction">
+            <button class="cancle" @click="Me.Close(true)">取消</button>
+            <button class="confirm" @click="submit">确定</button>
+        </footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

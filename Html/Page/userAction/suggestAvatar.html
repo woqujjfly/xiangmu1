@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改头像</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/suggest.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./suggestAvatar"></script>
+</head>
+
+<body>
+    <div class="suggestAvatar" id="suggestAvatar" v-cloak>
+        <win-header :header="{logo: '修改头像', win: ['mini','closeCurrent']}"></win-header>
+        <main>
+            <div class="avatar-label">
+                <span>标签 :</span>
+                <ul>
+                    <li v-for="(item,key) in labelList" @click="(label = key)" :class="{active: label === key}">{{item}}</li>
+                </ul>
+            </div>
+
+            <div class="avatar-list">
+                <pl-lazy :time='100'>
+                    <ul v-for="(list,key) in labelList" v-if="label == key">
+                        <li v-for="item in 24">
+                            <span class="img" :style="'background-image:url(../../static/images/userHead/' + key + '_' + item + '.webp)'"></span>
+                        </li>
+                    </ul>
+                </pl-lazy>
+            </div>
+        </main>
+        <footer>
+            <win-footer :action="{url: '', changeStatus: ['cancle','ok']}"></win-footer>
+        </footer>
+    </div>
+</body>
+
+</html>

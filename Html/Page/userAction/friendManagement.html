@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <link rel="stylesheet" href="../../static/css/friendManagement.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./friendManagement"></script>
+</head>
+
+<body>
+    <div id="friendManage">
+        <win-header :header="{logo: '好友管理器', win: ['mini', 'closeCurrent']}"></win-header>
+        <div class="identy">
+            <img src="../../static/images/index/group.png" alt="">
+            <span>好友管理</span>
+        </div>
+        <div class="first_line"></div>
+        <div class="operation">
+            <ul class="group_list">
+                <li class="word_front">好友分组</li>
+                <li class="word_front">全部好友</li>
+                <li class="groundList " :class="{groundList_two:whicthkey==key}" v-for="(item, key , index) of Param.friendGroup"
+                    @click="(whicthkey=key, selectList=[])" @contextmenu.stop="rightMenu(item)">{{item}}</li>
+                <li @click="addFriendGroup">+添加分组</li>
+            </ul>
+            <div class="list_right">
+                <div class="oper_list">
+                    <p>呵呵</p>
+                    <p>移动到</p>
+                    <select id="friendGroup" :class="{disable:selectList.length==0 }" @change="MoveFriend">
+                        <option value="" v-if="selectList.length==0"></option>
+                        <option :value="item.ID" v-for="(item, key, index) in Param.contactGroup" v-else>{{item.Name}}</option>
+                    </select>
+                    <span class="detail" :class="{disable:selectList.length==0 }" @click="deleteFriends">删除好友</span>
+                </div>
+                <div class="message_menu">
+                    <input type="checkbox" v-model="allChoosed">
+                    <ul>
+                        <li v-for="(cont,index) in operationList" @click="sortFriend(index)">
+                            <p>{{cont}}</p>
+                            <div class="triangle" v-if="whitchSort == index" :class="{zhengTriangle:ifSort==true&& whitchSort == index}"></div>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="dropdown">
+                    <li class="first_li" v-for="(item,index) in Param.contactList" v-if="item.FriendGroupID == whicthkey"
+                        @contextmenu.stop="rightMenu(item)">
+                        <ul class="dropdown_list">
+                            <li>
+                                <input type="checkbox" name="check_one" class="oneChecked" v-model='selectList' :value="item.ID">
+                                <span class="head_pic"></span>
+                                <span class="real_nick" @dblclick="openPersonalFile(item)">{{item.Nick}}</span>
+                            </li>
+                            <li><span class="real_number">{{item.ID}}</span></li>
+                            <li>
+                                <input type="text" class="changeRemark changeGrey" v-model='item.Remark' @blur='modifyRemark(item)'>
+                            </li>
+                            <li><span class="real_group_name">{{Param.friendGroup[item.FriendGroupID]}}</span></li>
+                            <li><span class="real_login_time">更早以前</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

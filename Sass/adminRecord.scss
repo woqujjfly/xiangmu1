@@ -1,0 +1,85 @@
+@import "base.scss";
+
+#adminRecord {
+    @include app;
+}
+
+#adminRecord {
+    .main {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        .actioner {
+            text-indent: 13px;
+            flex: 0.5;
+        }
+
+        .actionTime {
+            flex: 0.6;
+        }
+
+        .actionItem {
+            flex: 0.9;
+        }
+
+        .operaPerson {
+            display: flex;
+            height: 30px;
+            background: #D7EDF1;
+            line-height: 30px;
+        }
+
+        .operaInfo {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: auto;
+
+            li {
+                display: flex;
+                line-height: 20px;
+            }
+        }
+
+        .operaBottom {
+            background: $eee;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            span {
+                text-indent: 2px;
+                cursor: pointer;
+            }
+
+            button {
+                height: 26px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            .export {
+                padding-right: 12px;
+                padding-left: 12px;
+                background: #F5F5F5;
+                border: 1px solid #CCC;
+                &:hover{
+                    background: $white;
+                }
+            }
+
+            .close {
+                width: 60px;
+                background: $white;
+                border: 1px solid $gray;
+                margin-right: 19px;
+                &:hover{
+                    background: #F5F5F5;
+                }
+            }
+        }
+    }
+}

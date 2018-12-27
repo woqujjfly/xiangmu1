@@ -1,0 +1,66 @@
+@import "base.scss";
+
+#suggestAvatar {
+    @include app;
+}
+
+main {
+    flex: 1;
+    padding-left: 30px;
+
+    .avatar-label {
+        margin-top: 31px;
+        display: flex;
+        font-size: 14px;
+
+        ul {
+            display: flex;
+
+            li {
+                margin-left: 18px;
+
+                &.active {
+                    width: 41px;
+                    height: 20px;
+                    background-color: $globalBgColor;
+                    color: white;
+                    text-align: center;
+                    line-height: 20px;
+                    @include borderRadius4
+                }
+            }
+        }
+    }
+
+    .avatar-list {
+        margin-top: 41px;
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+
+            li {
+                margin: 0 13px 20px 0;
+                border-radius: 50%;
+
+                .img {
+                    display: block;
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+
+                    &:hover {
+                        border: 2px solid #89cff0;
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+footer {
+    height: 40px;
+    background-color: #eee;
+    @include buttonAction;
+}

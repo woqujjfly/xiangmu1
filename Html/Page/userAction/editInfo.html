@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>编辑资料</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/userinfo.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./editInfo"></script>
+</head>
+
+<body>
+    <div id="editInfo" v-cloak>
+        <win-header :header="{logo: '修改资料', win: ['mini', 'closeCurrent']}"></win-header>
+        <div class="personInfo">
+            <form method="post">
+                <div class="top">
+                    <div class="info1">
+                        <span>昵&nbsp;&nbsp;&nbsp;&nbsp;称 </span>
+                        <input type="text" v-model='Info.Nick' name='Nick'>
+                    </div>
+                    <div class="info1">
+                        <span>性&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+                        <select name="Sex" id="" v-model='Info.Sex'>
+                            <option value="0">女</option>
+                            <option value="1">男</option>
+                        </select>
+                    </div>
+                    <div class="info1 ">
+                        <span>生&nbsp;&nbsp;&nbsp;&nbsp;日</span>
+                        <input type="text" v-model='Info.Birthday' name='Birthday'>
+                    </div>
+                    <div class="info1">
+                        <span>血&nbsp;&nbsp;&nbsp;&nbsp;型</span>
+                        <select name="BloodType" id="" v-model='Info.BloodType'>
+                            <option value="O">O型</option>
+                            <option value="A">A型</option>
+                            <option value="B">B型</option>
+                            <option value="AB">AB型</option>
+                        </select>
+                    </div>
+                </div>
+                <ul class="bottom">
+                    <li>
+                        <span>职&nbsp;&nbsp;&nbsp;&nbsp;业</span>
+                        <input type="text" v-model='Info.Profession' name="Profession">
+                    </li>
+                    <li>
+                        <span>所在地</span>
+                        <input type="text" placeholder="湖北武汉" v-model='Info.HomeTown' name='HomeTown'>
+                    </li>
+                    <li>
+                        <span>学&nbsp;&nbsp;&nbsp;&nbsp;校</span>
+                        <input type="text" v-model='Info.School' name='School'>
+                    </li>
+                    <li>
+                        <span>公&nbsp;&nbsp;&nbsp;&nbsp;司</span>
+                        <input type="text" v-model='Info.Company' name="Company">
+                    </li>
+                    <li>
+                        <span>手&nbsp;&nbsp;&nbsp;&nbsp;机</span>
+                        <input type="tel" v-model='Info.Phone' name='Phone'>
+                    </li>
+                    <li>
+                        <span>个性签名</span>
+                        <textarea name="Vsign" id="" cols="30" rows="10" v-model='Info.Vsign'></textarea>
+                    </li>
+                    <li>
+                        <span>个人说明</span>
+                        <textarea name="PersonalDescription" id="" cols="30" rows="10" v-model='Info.PersonalDescription'></textarea>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <footer class="footerAction">
+            <button class="cancle" @click="Me.Close(true)">取消</button>
+            <button class="confimr" @click="submit">确定</button>
+        </footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

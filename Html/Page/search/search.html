@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/search.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./search"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="search_info" id="searchApp" v-cloak>
+        <win-header :header="{logo: '查找好友', win: ['mini', 'closeCurrent']}"></win-header>
+        <ul class="search_menu">
+            <li class="search_person" @click='selectType(event,0)' :class="{'active': showSearchType}">找人</li>
+            <li class="search_group" @click='selectType(event,1)' :class="{'active': !showSearchType}">找群</li>
+            <div class="triangle"></div>
+        </ul>
+        <div class="search_input">
+            <input id="input" type="text" @keyup.enter="search">
+            <div @click="search"></div>
+        </div>
+        <div class="search_content">
+            <p v-if='showSearchType && Object.keys(searchPerson).length &gt; 0'>找到{{Object.keys(searchPerson).length}}个人</p>
+            <p v-if='Object.keys(searchPerson).length==0 && showSearchType && personTitle'>抱歉, 没有找到符合条件的用户</p>
+            <p v-if='!showSearchType && Object.keys(searchGroup).length &gt; 0'>找到{{Object.keys(searchGroup).length}}个群</p>
+            <p v-if="Object.keys(searchGroup).length==0 && !showSearchType && groupTitle">抱歉, 没有找到符合条件的橙聊群</p>
+            <ul class="userinfo" v-if="Object.keys(searchPerson).length &gt; 0 && showSearchType">
+                <li v-for="(item,key,index) of searchPerson" class="userList">
+                    <span class="img" @click="openPersonalData(item)" style="background-image: url('../../static/images/avatar_1.png')"></span>
+                    <div class="msg">
+                        <p @click="openPersonalData(item)"> {{item.Nick}}</p>
+                        <p>({{item.ID}})</p>
+                        <button @click="addFriend(event,key)">+好友</button>
+                    </div>
+                </li>
+            </ul>
+            <ul class="userinfo" v-if="Object.keys(searchGroup).length &gt; 0 && !showSearchType">
+                <li v-for="(item,key,index) of searchGroup" class="userList">
+                    <span class="img" style="background-image: url('../../static/images/avatar_1.png')"></span>
+                    <div class="msg">
+                        <p>{{item.Name}}</p>
+                        <button class="groupsBtn" @click="addFriend(event,key)">+加群</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

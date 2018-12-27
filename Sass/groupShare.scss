@@ -1,0 +1,241 @@
+@import "base.scss";
+
+#groupShare {
+	@include app;
+	@include buttonAction;
+
+	.content {
+		height: 340px;
+		display: flex;
+		flex: 1;
+		padding: 12px 8px 0 15px;
+
+		.left {
+			display: flex;
+			flex-direction: column;
+			padding-right: 15px;
+			flex: 0.7;
+
+			p {
+				text-align: center;
+			}
+
+			.search {
+				height: 22px;
+				display: block;
+				border: 1px solid #eee;
+				margin-bottom: 9px;
+
+				&:focus {
+					border: 1px solid #12abff;
+				}
+			}
+
+			.searchUl {
+				li {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					margin-top: 6px;
+					border-radius: 4px;
+					line-height: 22px;
+
+					&:hover {
+						background: rgba(0, 0, 20, 0.1);
+					}
+
+					span {
+						display: block;
+						height: 24px;
+						background: url(../images/head.png) no-repeat;
+						text-indent: 30px;
+					}
+				}
+			}
+
+			.friend {
+				flex: 1;
+				overflow-x: hidden;
+				overflow-y: auto;
+			}
+
+			.leftTop {
+				.sub-contacts {
+					display: none;
+				}
+
+				>span {
+					display: block;
+					height: 24px;
+					background: #eee;
+					border-radius: 4px;
+					line-height: 22px;
+					margin-bottom: 6px;
+
+					i {
+						display: inline-block;
+						font-size: 12px;
+						transform: rotate(0deg);
+						margin-right: 5px;
+					}
+
+					.angle {
+						transform: rotate(90deg);
+					}
+				}
+
+				ul {
+					display: flex;
+					flex: 1;
+					overflow-x: hidden;
+					overflow-y: auto;
+					flex-direction: column;
+
+					>li {
+						overflow: hidden;
+						text-overflow: ellipsis;
+						border-radius: 4px;
+						line-height: 28px;
+						margin-bottom: 3px;
+
+						&:hover {
+							background: rgba(0, 0, 20, 0.1);
+						}
+
+						span {
+							background: url(../images/head.png) no-repeat 5px center/contain;
+							text-indent: 30px;
+							display: block;
+							height: 24px;
+							border-radius: 4px;
+							line-height: 22px;
+							margin-top: 3px;
+						}
+					}
+				}
+			}
+		}
+
+		.right {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+
+			.rightTop {
+				height: 98px;
+				border: 1px solid #ccc;
+				@include borderRadius4;
+
+				.title {
+					border-bottom: 1px solid #ccc;
+					padding: 3px 9px;
+					font-size: 14px;
+				}
+
+				.topContent {
+					display: flex;
+
+					span {
+						background: url(../images/head.png) no-repeat;
+						margin: 3px 0 0 10px;
+						width: 62px;
+						height: 62px;
+					}
+
+					.contentP {
+						flex: 1;
+						display: flex;
+						flex-direction: column;
+						margin-left: 16px;
+
+						.uname {
+							text-overflow: ellipsis;
+							overflow: hidden;
+							font-size: 14px;
+							margin-bottom: 9px;
+						}
+
+						.account {
+							text-overflow: ellipsis;
+							color: #999;
+							overflow: hidden;
+						}
+					}
+				}
+			}
+
+			.share {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				overflow: auto;
+
+				p {
+					font-size: 14px;
+					margin: 18px 0 0 5px;
+				}
+
+				#pic {
+					background: url(../images/left.png) no-repeat;
+					height: 100px;
+				}
+
+				ul {
+					flex: 1;
+					margin-top: 10px;
+					overflow: auto;
+
+					.checked {
+						margin-top: 10px;
+
+						.opcity {
+							opacity: 0;
+							transition: opacity 0.5s linear;
+						}
+
+						&:hover .opcity {
+							opacity: 1;
+						}
+
+						div {
+							display: inline;
+							background: rgba(255, 248, 232, 1);
+							padding: 6px 6px;
+							font-size: 14px;
+
+							span {
+								background: url(../images/head.png) no-repeat;
+								height: 24px;
+								display: inline-block;
+								text-indent: 30px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+footer {
+	height: 40px;
+	background: $eee;
+	@include buttonAction;
+
+	.share {
+		background: #12abff;
+		color: white;
+
+		&:hover {
+			background: rgba(18, 171, 255, 0.6)
+		}
+	}
+
+	.cancel {
+		border: 1px solid #999;
+		background: white;
+
+		&:hover {
+			background: #eee;
+		}
+	}
+}

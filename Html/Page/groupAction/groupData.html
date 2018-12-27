@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>群信息</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/groupData.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./groupData"></script>
+</head>
+
+<body>
+    <div id='groupData' v-cloak>
+        <div class="groupBackground">
+            <div class="groupImg">
+                <span style="background: url(../../static/images/avatar_2.png) center/contain"></span>
+                <h1 id="maxGroupName">{{ Params.Name}} </h1>
+                <h3>{{Params.ID }}</h3>
+            </div>
+            <button @click="sendInfo">发消息</button>
+        </div>
+        <div class="groupInfo">
+            <win-setting win="['mini', 'closeCurrent']"></win-setting>
+            <div class="groupInner" v-show="!showEdit">
+                <ul class="group">
+                    <li v-for="item in showList" @click='(listType = item)' :class="{'active': listType==item}">
+                        {{ item }}
+                    </li>
+                </ul>
+                <a class="modifyData" @click="(showEdit = true)" v-show='isAdmin &gt; 0'>编辑资料</a>
+            </div>
+
+            <div class="editData" v-show='showEdit'>
+                <div class="groupPhoto">
+                    <p>群头像</p>
+                    <span class="pic" style="background: url(../../static/images/headp.png)"></span>
+                    <span class="addImg" title="添加头像" style="background-image:url(../../static/images/group/add01.png)"></span>
+                </div>
+                <ul class="editDataInfo">
+                    <li>
+                        <p class="groupN">群名称</p>
+                        <input type="text" id="groupNa" :value="Params.Name" oninput="if(this.value.length > 15) return substr(0, 15)" maxlength="15">
+                        <!-- <div class="groupClassify">
+                            <p class="groupN">群分类</p>
+                            <select name="" id="groupClassify">
+                                <option value="同事朋友">同事朋友</option>
+                                <option value="置业安家">置业安家</option>
+                                <option value="游戏">游戏</option>
+                                <option value="品牌产品">品牌产品</option>
+                                <option value="粉丝">粉丝</option>
+                                <option value="兴趣爱好">兴趣爱好</option>
+                                <option value="生活休闲">生活休闲</option>
+                                <option value="学习考试">学习考试</option>
+                                <option value="行业交流">行业交流</option>
+                            </select>
+                        </div> -->
+                    </li>
+                    <li>
+                        <p class="groupName">群标签</p>
+                        <div class="groupLabelAndAddLabel">
+                            <div class="groupLabel">
+                                <input type="text" id="lableText" oninput="if(this.value.length > 8) return substr(0, 8)" maxlength="8" placeholder="添加关键词，让群更容易被找到">
+                                <button @click="stickOn">贴上</button>
+                            </div>
+                            <div class="addLabel">
+                                <span v-for="(item,index) in groupLabel">
+                                    {{ item }}
+                                    <span class="img" style="background-image:url(../../static/images/close_black.png)" @click="(groupLabel.splice(index, 1))"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <p class="groupName">群介绍</p>
+                        <div class="groupInstruction">
+                            <textarea name="" id="content" cols="30" rows="10" v-model='groupIntroduce' maxlength="300"></textarea>
+                            <div class="smile">
+                                <span class="img" style="background-image:url(../../static/images/group/nickname.png)"></span>
+                                <span id="result"></span>
+                            </div>
+                            <div class="emojiAll" v-show='showEmoji'>
+                                <ul class="emojiWrap">
+                                    <li v-for="(emoji,text) in emojiList" @click='selectEmoji(emoji,text)'>
+                                        <span :style="'background-image: url(../../static/images/emotion/' + emoji + '.png)'" :title="text"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="saveCancle">
+                    <button class="aright" @click='saveEditData'>保存</button>
+                    <button @click='showEdit=false'>取消</button>
+                </div>
+            </div>
+
+            <div class="box" v-show="!showEdit">
+                <div class="homePage" v-show="'首页' == listType">
+                    <div class="homePage-images">
+                        <span style="background-image:url(../../static/images/headp.png)"></span>
+                        <span class="addImg" title="添加头像" style="background-image:url(../../static/images/group/add01.png)"></span>
+                    </div>
+                    <ul class="homePage-text">
+                        <li>
+                            <p>群介绍</p>
+                            <div>
+                                本群创建于{{ Params.CreateTime }}:
+                                <span id="groupKindsIndus">群主很懒.什么都没有留下</span>
+                            </div>
+                        </li>
+                        <li>
+                            <p>群标签</p>
+                            <div class="groupTags">
+                              
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="groupOwner">
+                        <p>群主/管理员</p>
+                        <span class="img" style="background: url(../../static/images/group/group4.png)"></span>
+                    </div>
+                </div>
+
+                <div class="memberList" v-show="'成员' == listType">
+                    <div class="adminInfo">
+                        <span class="adminer">管理员：0/{{ Params.Size }}人
+                            <div style="background: url(../../static/images/group/question.png)" class="question"></div>
+                        </span>
+                        <!-- <span @click="adminRecord" v-show='Params.GroupOwnerID==Params.MyID'>管理记录</span> -->
+                        <!-- <span class="aleft" v-show='Params.GroupOwnerID==Params.MyID'>高级管理</span> -->
+                        <span @click="getFocus(number = Params.MyID)">修改我的群名片</span>
+                        <span class="addMember" @click="inviteEnterGroup" style="background: url(../../static/images/group/add.png) "></span>
+                    </div>
+                    <ul class="memberInfo">
+                        <li class="member">成员</li>
+                        <li>群名片</li>
+                        <li>等级</li>
+                        <li>积分</li>
+                        <li>最后发言</li>
+                    </ul>
+                    <ul class="memberInfoList">
+                        <li class="memberInfoItem" @click="showBg = key" :class="{'bg':(showBg == key)}" v-for="(item,key,index) in Params.MemberList">
+                            <span class="admin" v-show="item.IsAdmin == 2" style="background-image: url(../../static/images/group/head.png)"></span>
+                            <span class="admin" @click='setAdminer(item)':class="{'noClick':Params.MyID != Params.GroupOwnerID}" v-show="item.IsAdmin == 1" style="background-image: url(../../static/images/group/headAdmin.png)"></span>
+                            <span class="admin lucency" :class="{'member':Params.MyID == Params.GroupOwnerID,'noClick':Params.MyID != Params.GroupOwnerID}" v-show="item.IsAdmin &lt; 1"
+                                @click="setAdminer(item)" style="background-image: url(../../static/images/login/user.png)"></span>
+                            <span class="adminImg" style="background-image:url(../../static/images/group/img.png)">{{item.Nick}}</span>
+                            <input type="text" @blur="changeCard(item,index,number = -1)" :readonly="!(number == item.MemberID)" :class="{'focus':(number == item.MemberID)}" class='changeCard'
+                                :value="item.VisitingCard" class="editable" >
+                            <span class="grade">{{ item.grade }}</span>
+                            <span class="total">{{ item.total }}</span>
+                            <div class="check">
+                                <div :class="{'show1':(showBg == key)}">{{ item.lastSpeak }}</div>
+                                <div class="checkImg" :class="{'show':(showBg == key)}">
+                                    <span @click='getFocus(number=item.MemberID)' v-if="isAdmin &gt; item.IsAdmin||Params.MyID== item.MemberID"
+                                        class="img modifyGroupCard" title="修改群资料" style="background-image: url(../../static/images/edit.png)"></span>
+                                    <span class="img checkOutData" @click="lookData(item)" title="查看资料" style="background-image: url(../../static/images/group/seeData.png)"></span>
+                                    <span class="img quitGroup" v-if="item.MemberID==Params.MyID && isAdmin!=2" @click="quitGroup" title="退出该群" style="background-image:url(../../static/images/exit.png)"></span>
+                                    <span class="img quitGroup" v-if="isAdmin==2&&item.MemberID==Params.MyID" @click="quitGroup" title="解散该群" style="background-image:url(../../static/images/exit.png)"></span>
+                                    <span class="img kick" @click="kick(item)" v-if="isAdmin &gt; item.IsAdmin "
+                                        style="background-image:url(../../static/images/group/kick.png)"></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="settingList" v-show="'设置' == listType">
+                    <ul class="settingInfo">
+                        <li>
+                            <p>查找方式 :</p>
+                            <div class="allowSearch">
+                                <label @change="showSearch('searchWay')">
+                                    <input type="checkbox" class="searchWay" checked>
+                                    <span>允许被搜索</span>
+                                </label>
+                                <div class="allowSelect" v-show=searchList>
+                                    <label>
+                                        <input type="radio" name="search" checked>
+                                        <span>通过群号或关键词(在找群时,他人可通过群号或关键词找到本群)</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="search">
+                                        <span>仅可通过群号(在找群时,他人可通过群号或关键词找到本群)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <p>群消息提示 :</p>
+                            <div class="allowSearch">
+                                <label checked>
+                                    <input type="radio" name="Params" checked>
+                                    <span>接收消息并提醒</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="Params">
+                                    <span>接收消息但不提醒</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="Params">
+                                    <span>收进群助手且不提醒</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="Params">
+                                    <span>屏蔽群消息</span>
+                                </label>
+                            </div>
+                        </li>
+                        <!-- <li>
+                            <p>图片屏蔽 :</p>
+                            <div class="allowSearch">
+                                <label>
+                                    <input type="checkbox">
+                                    <span>屏蔽群内照片</span>
+                                </label>
+                            </div>
+                        </li> -->
+                        <li>
+                            <p>置顶设置 :</p>
+                            <div class="allowSearch">
+                                <label>
+                                    <input type="checkbox">
+                                    <span>设为置顶群</span>
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <p>加群方式 :</p>
+                            <div class="allowSearch">
+                                <label>
+                                    <input type="radio" name="addGroup" checked>
+                                    <span>允许任何人加群</span>
+                                </label>
+                                <!-- <label checked>
+                                    <input type="radio" name="addGroup">
+                                    <span>需要验证消息</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="addGroup">
+                                    <span>需要回答问题并由管理员审核</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="addGroup">
+                                    <span>需要正确回答问题</span>
+                                </label> -->
+                                <label>
+                                    <input type="radio" name="addGroup">
+                                    <span>只允许群成员邀请加群</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="addGroup">
+                                    <span>只允许管理员邀请加群</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="addGroup">
+                                    <span>不允许任何人加群</span>
+                                </label>
+                                <!-- <label>
+                                    <input type="radio" name="addGroup" disabled>
+                                    <span>付费加群(本群需要达到要求才能设置付费入群 <a href="#">了解详情</a>)</span>
+                                </label> -->
+                            </div>
+                        </li>
+                        <!-- <li>
+                            <p>邀请方式 :</p>
+                            <div class="allowSearch">
+                                <label @change="showSearch('allowList')">
+                                    <input type="checkbox" class="allowList" checked>
+                                    <span>允许群成员邀请好友加群</span>
+                                </label>
+                                <div class="allowSelect" v-show=allowList>
+                                    <label>
+                                        <input type="radio" name="inviter">
+                                        <span>无需审核直接进群</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="inviter">
+                                        <span>群成员100人以内无需审核</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="inviter" checked>
+                                        <span>需要管理员审核</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </li> -->
+                        <!-- <li>
+                            <p>成员信息 :</p>
+                            <div class="allowSearch">
+                                <label>
+                                    <input type="checkbox">
+                                    <span>在群成员管理页展示成员标签</span>
+                                </label>
+                                <div class="allowSelect">
+                                    <span class="onlyGroupAdmin">(仅群主,管理员可见)</span>
+                                    <button>编辑标签</button>
+                                </div>
+                            </div>
+                        </li> -->
+                        <!-- <li>
+                            <p>访问权限 :</p>
+                            <div class="allowSearch">
+                                <span>请选择游客在该群聊天窗口的权限</span>
+                                <label checked>
+                                    <input type="radio" name="memberInfo" checked>
+                                    <span>非群成员不能进入</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="memberInfo">
+                                    <span>可以进入但不能发言</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="memberInfo">
+                                    <span>可以进入并可以发言</span>
+                                </label>
+                            </div>
+                        </li> -->
+                        <!-- <li>
+                            <p>会话权限 :</p>
+                            <div class="allowSearch">
+                                <label>
+                                    <input type="checkbox" name="searchMode">
+                                    <span>允许匿名聊天</span>
+                                </label>
+                                <label checked>
+                                    <input type="checkbox" name="searchMode" checked>
+                                    <span>允许群视频</span>
+                                </label>
+                                <label checked>
+                                    <input type="checkbox" name="searchMode" checked>
+                                    <span>允许群成员发起临时会话(关闭后只允许群主和管理员发起)</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="searchMode">
+                                    <span>全员禁言(开启后,只允许群主管理员发言)</span>
+                                </label>
+                            </div>
+                        </li> -->
+                        <li>
+                            <p>应用权限 :</p>
+                            <div class="allowSearch">
+                                <span>允许全体成员上传文件</span>
+                                <span>允许全体成员上传相册</span>
+                            </div>
+                        </li>
+                        <li>
+                            <p>其他 :</p>
+                            <div class="allowSearch">
+                                <button>{{Params.GroupOwnerID == Params.MyID ? '解散该群' : '退出该群'}}</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

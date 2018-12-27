@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人资料</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/personalBackground.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./openPersonalFile"></script>
+</head>
+
+<body>
+    <div class="personalBackground" id="personalBackground" v-cloak>
+        <div class="cover">
+            <div class="cover_bg">
+                <div class="cover_title" v-show="friendInfo.MyID">
+                    <span class="logo"></span>
+                    <span>更换封面</span>
+                </div>
+            </div>
+            <div class="user_bg">
+                <div class="user person">
+                    <span class="headPic"></span>
+                    <div class="message">
+                        <h4>{{friendInfo.Nick}}</h4>
+                        <P v-if="!friendInfo.MyID">{{friendInfo.Vsign}}</P>
+                        <input v-if="friendInfo.MyID" type="text" v-model='friendInfo.Vsign' @blur='changeSign' id="personalSign">
+                    </div>
+                </div>
+                <div class="addFriend" v-if="!friendInfo.MyID">
+                    <button v-show="!(friendInfo.FriendGroupID !== undefined)" class="add">加好友</button>
+                    <button v-show="friendInfo.FriendGroupID !== undefined" @click="sendMsg" class="sendMessage">发消息</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="userMessage">
+            <win-header :header="{logo: ' ', win: ['mini', 'closeCurrent']}"></win-header>
+            <div class="user_list person_list">
+                <ul>
+                    <li>
+                        <span class='logo'></span>
+                        <p>{{friendInfo.ID}}</p>
+                    </li>
+                    <li>
+                        <span class='nick'></span>
+                        <p>昵称 &nbsp;&nbsp;{{friendInfo.Nick}}</p>
+                    </li>
+                    <li v-show="friendInfo.FriendGroupID !== undefined">
+                        <span class="remark"></span>
+                        <p>备注 &nbsp;&nbsp;</p>
+                        <input id="amendRemark" maxlength="10" :value="friendInfo.Remark" @blur="amendRemark" class="amendRemark"
+                            :class="{focus:inputClass}" type="text" placeholder="添加" readonly="readonly">
+                        <span @click="amend" class="modifyname"></span>
+                    </li>
+                    <li v-show="friendInfo.FriendGroupID !== undefined">
+                        <span class='grouping'></span>
+                        <p>分组</p>
+                        <select name="" id="friendgroup" @change="moveGroups">
+                            <option :value="key" :selected="friendInfo.FriendGroupID==key" V-for="(item,key,index) in friendGroups" >{{item}}</option>
+                        </select>
+                    </li>
+                    <li>
+                        <span class="sex"></span>
+                        <p>{{friendInfo.Sex==1 ? '男' : '女'}}</p>&nbsp;20岁&nbsp;3月5日(公历)&nbsp;双鱼座&nbsp;属虎
+                    </li>
+                    <li>
+                        <span class="location"></span>
+                        <p>湖南省&nbsp;常宁县</p>
+                    </li>
+                    <li>
+                        <span class="vip"></span>
+                        <p> 会员还剩{{friendInfo.VipOut}}天到期</p>
+                        <span class="jewel"></span>
+                        <a>续费</a>
+                    </li>
+                    <li>
+                        <span class="Vsign"></span>
+                        <p>{{friendInfo.Vsign}}</p>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+            <div class="info_list">
+                <ul class="info_menu">
+                    <li class="special">
+                        <span class="msg"></span>
+                        <span>所在地&nbsp;&nbsp;</span>{{friendInfo.HomeTown}}&nbsp;&nbsp;
+                    </li>
+                    <li class="first">
+                        <span>血型&nbsp;&nbsp;</span>{{friendInfo.BloodType}}
+                        <p v-show="friendInfo.BloodType!=null">型</p> &nbsp;&nbsp;
+                    </li>
+                    <li class="first">
+                        <span>学校&nbsp;&nbsp;</span>{{friendInfo.School}}&nbsp;&nbsp;
+                    </li>
+                    <li class="first">
+                        <span>个人说明&nbsp;&nbsp;</span>{{friendInfo.PersonalDescription}}&nbsp;&nbsp;
+                    </li>
+                </ul>
+                <button v-if="friendInfo.MyID" @click='editInfo'>编辑资料</button>
+            </div>
+        </div>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

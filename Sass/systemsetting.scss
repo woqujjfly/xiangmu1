@@ -1,0 +1,124 @@
+@import "base.scss";
+
+.setting_info{
+    @include app;
+// 设置导航
+main{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    .setting_nav {
+        display: flex;
+        height: 32px;
+        align-items: center;
+        background-color: $eee;
+        border-bottom: 1px solid #ddd;
+        li{
+            margin-left: 30px; 
+            span{
+                font-size: 14px;
+            }
+            i{
+                font-size: 12px;
+                margin-right: 2px;
+            }
+        }    
+        .active{
+            color: #009EF5;
+        }
+    }
+    //左边权限导航
+    .authority_setting ,
+    .setting_content {
+        flex: 1;
+        display: flex;
+        overflow: auto;
+        .setting_menu{
+            display: flex;
+            flex-direction: column;
+            background: $eee;
+            width: 132px;
+            position: relative;
+            .slid{
+                position: absolute;
+                top: 0;
+                background: #fff;
+                width: 100%;
+            }
+            li {
+                height: 37px;
+                padding-left: 20px;
+                z-index: 0;
+                line-height: 37px;
+            }
+        }
+        //右边的设置内容
+        .setting_detail{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-top: 12px;
+            padding-left: 34px;
+            li {
+                display: flex;
+                p{
+                    width: 70px;
+                    line-height:27px;
+                }
+                div{
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    label,span{
+                        line-height:27px;
+                        input{
+                            margin-right: 5px;
+                            position: relative;
+                            top: 2px;
+                        }
+                        button{
+                            padding: 3px 5px;
+                            margin-right: 10px;
+                            font-size: 12px;
+                            background: #F5F5F5;
+                            border: 1px solid #cdcdcd;
+                            @include borderRadius4;
+                            &:hover{
+                                background: #b0e0e6;
+                            }
+                        }
+                        .type_text {
+                            border: 1px solid #cdcdcd;
+                            width: 246px;
+                            height: 22px;
+                            border-radius: 3px;
+                            margin-bottom: 7px;
+                            text-indent: 2px;
+                        }
+                        input[type=number] {
+                            width: 50px;
+                            border: 1px solid $eee;
+                            @include borderRadius4;
+                            top: 1px;
+                        }
+                        .browser{
+                            border: 1px solid #cdcdcd;
+                        }
+                        i{
+                            font-size: 13px;
+                            margin-left: 5px;
+                        }
+                        .icon-delete{
+                            font-size: 14px;
+                            margin-left: 4px;
+                        }
+                    }
+                    .second_li{
+                        padding-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+}

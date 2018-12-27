@@ -1,0 +1,227 @@
+@import "base.scss";
+
+#memberCenter{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+}
+.out_border{
+    margin: 0 32px;
+    .idWho{
+        margin-bottom:30px;
+        margin-top:24px;
+        span{
+            font-size:14px;
+        }
+        span:nth-child(3){
+            color:#FF9B24;     
+            cursor: pointer;     
+        }
+        span:nth-child(3):hover{
+            color:rgba(255,155,36,0.7);
+        }
+    }
+    .recharge_option{
+        display:flex;
+        justify-content: space-between;
+        width:100%;
+        .recharge_box{
+            width:120px;
+            height:140px;
+            background: white;
+            color:#333;
+            border:1px solid grey;
+            .white{
+                color:white;
+            }
+            .number_money{ 
+                display:flex;
+                justify-content: center;
+                margin-top:27px;
+                span:nth-child(1){
+                    font-size:28px;
+                }
+                span:nth-child(2){
+                    font-size:14px;    
+                    line-height: 34px;             
+                }
+            }
+            .month_bi{
+                margin-top:3px;
+            }
+            .down_line{
+                width:80%;
+                height:1px;
+                background:#C5C5C5;
+                margin:21px 0px 8px 12px;
+            }
+            p{
+                font-size:14px;
+                color:#333;   
+                text-align: center;          
+            }
+        }
+        .last{
+            width:120px;
+            height:140px;
+            background: white;
+            color:#333;
+            border:1px solid grey;
+            .whited{
+                color:white;
+            }
+            .number_money{ 
+                display:flex;
+                justify-content: center;
+                margin-top:27px;
+                span:nth-child(1){
+                    font-size:28px;
+                }
+                span:nth-child(2){
+                    font-size:14px;    
+                    line-height: 34px;             
+                }
+            }
+            .last_line{
+                width:100%;
+                height:1px;
+                background:#C5C5C5;
+                margin-top:21px;
+            }
+            .month_bi{
+                margin-top:3px;
+            }
+            .down_line{
+                width:80%;
+                height:1px;
+                background:#C5C5C5;
+                margin:21px 0px 8px 12px;
+            }
+            p{
+                font-size:14px;
+                color:#333;   
+                text-align: center;          
+            }
+            .last_line{
+                width:100%;
+                height:1px;
+                background:#C5C5C5;
+                margin-top:21px;
+            }
+            .addmonth{
+                display:flex;
+                justify-content: space-between;
+                .whited{
+                    color:white;
+                }
+                span{
+                    height:100%;
+                    width:37px;
+                    background: #C5c5c5;
+                    text-align: center;
+                    img{
+                        margin:0 auto;
+                    }
+                }
+                p{
+                    font-size:14px;
+                    color: #666;
+                    line-height:30px;
+                }
+            }
+        }
+        // .last:hover{
+        //     background:#FF9B24;
+        //     color:white;
+        // }
+        .clickChange{
+            background:#FF9B24;
+            color:white;
+        }
+        // .recharge_box:hover{
+        //     background:#FF9B24;
+        //     border:none;
+        // }
+        // .recharge_box:hover p{
+        //     color:#fff;
+        // }
+        // .recharge_box:hover span{
+        //     color:#fff;
+        // }
+        // .recharge_box:hover .down_line{
+        //     background:#fff;
+        // }
+    }
+    .long_line{
+        width:100%;
+        height:1px;
+        background:grey;
+        margin:24px 0;
+    }
+    .payment{
+        display:flex;
+        justify-content: space-between;
+        .payment_methods{
+            width:100px;
+            p{
+                font-size:14px;
+                color:#333333;
+            }
+            ul{
+                list-style:none;
+                padding: 0;
+                li{
+                    border:1px solid #999;
+                    width:100px;
+                    height:28px; 
+                    margin-top:16px;    
+                    text-align: center;
+                    line-height: 28px;  
+                    position: relative;
+                    top: 0;
+                    left: 0;   
+                    .pic_true{
+                        width:18px;
+                        height:20px;
+                        background:#FF8B00;
+                        color:#fff;
+                        position: absolute;
+                        top:7px;
+                        left:81px;
+                        font-size:8px;
+                        border-radius: 18px 0px 0px 0px;   
+                        display:none;                 
+                    }    
+                    .active{
+                        display: block;
+                    }
+                }
+                .borderYellow{
+                    border:1px solid #FF8B00;
+                }
+            }          
+        }
+        .qr_code{
+            width:496px;
+            height:165px;
+            position: relative;
+            img{
+                width:90px;
+                height:90px;
+                position: absolute;
+                top:37px;
+                right:210px;
+            }
+            div{
+                position: absolute;
+                top:140px;
+                right:180px;
+                span{
+                    font-size:14px;
+                }
+            }
+        }
+    }
+}

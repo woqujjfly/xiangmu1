@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/groupshare.min.css">
+    <link rel="stylesheet" href="../../static/css/iconfont.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./groupshare"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="groupShare" v-cloak>
+        <header>
+            <win-header :header="{logo: 'Ramsey-分享名片', win: ['mini', 'closeCurrent']}"></win-header>
+        </header>
+        <div class="content">
+            <div class="left">
+                    <input v-model="searchVal" type="text" class="search">
+                <div v-show="showMenu">
+                    <p v-show="showP">没有找到您要搜索的联系人</p>
+                    <ul class="searchUl">
+                        <li v-for="(friend,key,index) in user" @click="moveLi(event,index,friend)" v-if="groupInfo.getContactInfo.ID != key">
+                            <span>{{friend.Remark?friend.Remark:friend.Nick}}({{friend.ID}})</span>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="friend" >
+                    <li v-for="(group,key,index) of groupInfo.contactGroup" v-show="showFriendClass" class="leftTop"
+                        @click="angle($event, index)">
+                        <span><i class="iconfont icon-xiayiye-copy contactAngle"></i>{{group.Name}}</span>
+                        <ul class="sub-contacts">
+                            <li v-for="(friend,key,index2) of group.List" v-if='friend.ID!=groupInfo.getContactInfo.ID'
+                                @click="moveLi(event,index2,friend)">
+                                <span> {{friend.Remark?friend.Remark:friend.Nick}}({{friend.ID}})</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <div class="recommend">
+                    <div class="rightTop">
+                        <p class="title">推荐联系人</p>
+                        <div class="topContent">
+                            <span></span>
+                            <div class="contentP">
+                                <p class="uname">{{groupInfo.getContactInfo.Remark?groupInfo.getContactInfo.Remark:groupInfo.getContactInfo.Nick}}</p>
+                                <p class="account">账号{{groupInfo.getContactInfo.ID}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="share">
+                    <p id="shareContacts">分享给以下联系人:{{shareLi.length}}/5</p>
+                    <div id="pic" v-show="shareLi.length==0">
+                    </div>
+                    <ul v-show="shareLi.length!=0">
+                        <li v-for="(item,index) in shareLi" class="checked">
+                            <div>
+                                <span>{{JSON.parse(item).Nick}}({{JSON.parse(item).ID}})</span>
+                                <i @click="deleteLi(index)" class="iconfont icon-close opcity"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <button @click='share'>分享</button> -->
+            </div>
+
+        </div>
+        <footer class="footerAction">
+            <button class="cancel">取消</button>
+            <button class="share" @click='share'>分享</button>
+		</footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

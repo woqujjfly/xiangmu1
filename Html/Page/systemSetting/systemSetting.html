@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/systemsetting.min.css">
+    <link rel="stylesheet" href="../../static/css/iconfont.css">
+    <script src="/Plugs/Module/require.js" data-main="./systemSetting"></script>
+    <title>系统设置</title>
+</head>
+
+<body>
+    <div class="setting_info" id='settingApp' v-cloak>
+        <win-header :header="{logo: '系统设置', win: ['mini', 'closeCurrent']}"></win-header>
+        <main>
+            <ul class="setting_nav">
+                <li class="basicSet" @click='showBasicSetting=true' :class='{active: showBasicSetting}'>
+                    <i class="iconfont icon-setting"></i><span>基本设置</span>
+                </li>
+                <!-- <li class="authoSet" @click='showBasicSetting=false' :class='{active:!showBasicSetting}'>
+                    <i class="iconfont icon-lock1"></i><span>权限设置</span>
+                </li> -->
+            </ul>
+
+            <div class="setting_content" v-show=showBasicSetting>
+                <ul class="setting_menu">
+                    <li class="slid"></li>
+                    <li class="menu" v-for="(item,index) in itemList" @click="change(activeClass=index,$event)">
+                        {{item}}
+                    </li>
+                </ul>
+
+                <ul class="setting_detail">
+                    <li id="login" v-show='activeClass==0'>
+                        <p>登录:</p>
+                        <div class="loginContent">
+                            <label>
+                                <input type="checkbox" name="login">
+                                <span>开机时自动启动</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" v-model="autoLogin" @change="locationLogin" name="login">
+                                <span>自动登录</span>
+                            </label>
+                            <!-- <label>
+                                <input type="checkbox" name="login">
+                                <span>总是打开登录提示</span>
+                            </label> -->
+                        </div>
+                    </li>
+
+                    <li id="panel" v-show='activeClass==1'>
+                        <p>主面板:</p>
+                        <div>
+                            <label>
+                                <input type="checkbox" v-model="topmost" @change="setTopmost" name="indexpanel">
+                                <span>始终保持在其他窗口前端</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="indexpanel">
+                                <span>停靠在桌面边缘时自动隐藏</span>
+                            </label>
+                            <!-- <label>
+                                <input type="checkbox" name="indexpanel">
+                                <span>在任务栏通知区域显示神圣talk图标</span>
+                            </label> -->
+                            <span class="closePanel">关闭主面板时:</span>
+                            <label class="second_li">
+                                <input type="radio" name='closepanel' :checked=!Close   @click="setMinsizeOrClose(index=0,event)" >
+                                <span>隐藏到任务栏通知区域时,不退出程序</span>
+                            </label>
+                            <label class="second_li">
+                                <input type="radio" name='closepanel' :checked=Close  @click="setMinsizeOrClose(index=1,event)">
+                                <span>退出程序</span>
+                            </label>
+                        </div>
+                    </li>
+
+                    <li id="message" v-show='activeClass==2'>
+                        <p>信息提示:</p>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="info">
+                                当收到信息时,播放信息提示音
+                            </label>
+                        </div>
+                    </li>
+
+                    <li id="session" v-show='activeClass==3'>
+                        <p>会话窗口:</p>
+                        <div>
+                            <!-- <label>
+                                <input type="checkbox" name="sessionData">
+                                <span>显示上次交谈的最后一句话</span>
+                            </label> -->
+                            <label>
+                                <input type="checkbox" name="sessionData">
+                                <span>显示历史消息记录</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="sessionData" v-model="isShake">
+                                <span>允许接受窗口抖动</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="sessionData">
+                                <span>允许来消息时自动弹出窗口</span>
+                            </label>
+                        </div>
+                    </li>
+
+                    <li id="file" v-show='activeClass==4'>
+                        <p>文件管理:</p>
+                        <div>
+                            <span>默认把接受的文件夹保存到此文件夹中</span>
+                            <span>
+                                <input class="type_text" type="text">
+                            </span>
+                            <span class="modifyOpen">
+                                <button>更改目录</button>
+                                <button>打开文件夹</button>
+                            </span>
+                            <span>选择个人文件夹(用于保存消息记录等数据)的保存位置</span>
+                            <label>
+                                <input type="radio" name="save">
+                                <span>保存到"我的文档"(推荐)</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="save">
+                                <span>自定义</span>
+                            </label>
+                            <label>
+                                <button>打开个人文件夹</button>
+                            </label>
+                            <!-- <span>
+                                定期进行文件清理可以有效节省磁盘空间
+                                <button>前去清理</button>
+                            </span>
+                            <label>
+                                <input type="checkbox">
+                                <span>
+                                    当个人文件大小超过
+                                    <input type="number" value="1000">MB时,提醒我清理
+                                </span>
+                            </label> -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- <div class="authority_setting" v-show=!showBasicSetting>
+                <ul class="setting_menu">
+                    <li class="slid"></li>
+                    <li class="menu1" v-for="(item,index) in authority_settingList" @click="change(activeC=index,$event)">
+                        {{item}}
+                    </li>
+                </ul>
+
+                <ul class="setting_detail">
+                    <li id="personalData" v-show='activeC==0'>
+                        <p>个人资料:</p>
+                        <div>
+                            <span>您可以设置谁可以查看您的个人资料.</span>
+                            <span>
+                                <button>权限设置</button>
+                            </span>
+                        </div>
+                    </li>
+
+                    <li id="harassment" v-show='activeC==1'>
+                        <p>防骚扰:</p>
+                        <div>
+                            <span>请选择允许别人查找到您的方式:</span>
+                            <label>
+                                <input type="checkbox" name="harass">
+                                <span>只能通过账号或昵称找到我</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="harass">
+                                <span>不允许将我推荐给可能认识的人，同时也不向我推荐可能认识的人</span>
+                            </label>
+                            <span>请选择适合您的验证方式:</span>
+                            <label>
+                                <input type="radio" name='closepanel'>
+                                <span>允许任何人</span>
+                            </label>
+                            <label>
+                                <input type="radio" name='closepanel'>
+                                <span>需要验证信息</span>
+                            </label>
+                            <label>
+                                <input type="radio" name='closepanel'>
+                                <span>需要正确回答问题</span>
+                            </label>
+                            <label>
+                                <input type="radio" name='closepanel'>
+                                <span>需要回答问题并由我确认</span>
+                            </label>
+                            <span>
+                                <span>设置问题一：</span>
+                                <select>
+                                    <option value="你是谁？">你是谁？</option>
+                                    <option value="为什么要加我？">为什么要加我？</option>
+                                    <option value="你是哪里人？">你是哪里人？</option>
+                                    <option value="你现居何处？">你现居何处？</option>
+                                    <option value="你多大了？">你多大了？</option>
+                                </select>
+                                <i class="iconfont icon-jiahao1" @click="showQuestion=true"></i>
+                            </span>
+                            <span v-show="showQuestion">
+                                <span>设置问题二：</span>
+                                <select>
+                                    <option value="你是谁？">你是谁？</option>
+                                    <option value="为什么要加我？">为什么要加我？</option>
+                                    <option value="你是哪里人？">你是哪里人？</option>
+                                    <option value="你现居何处？">你现居何处？</option>
+                                    <option value="你多大了？">你多大了？</option>
+                                </select>
+                                <i class="iconfont icon-delete" @click="showQuestion=false"></i>
+                            </span>
+                        </div>
+                    </li>
+                    <li id="temporarySession" v-if='activeC==2'>
+                        <p>临时会话:</p>
+                        <div>
+                            <label>
+                                <input type="checkbox">
+                                <span>不接受任何临时会话消息</span>
+                            </label>
+                            <span>
+                                <button>屏蔽联系人管理</button>
+                                <button>屏蔽会话管理</button>
+                            </span>
+                        </div>
+                    </li>
+                    <li id="ownness" v-show='activeC==3'>
+                        <p>个人状态:</p>
+                        <div>
+                            <span>您将向好友展示以下选中的信息:</span>
+                            <label>
+                                <input type="checkbox" name="person">
+                                <span>我的输入状态</span> 
+                            </label>
+                            <label>
+                                <input type="checkbox" name="person">
+                                <span>我的地理位置</span> 
+                            </label>
+                        </div>
+                    </li>
+                    <li id="remoteDesktop" v-show='activeC==4'>
+                        <p>远程桌面:</p>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="remote">
+                                <span>允许远程桌面连接这台计算机</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="remote">
+                                <span>自动接受连接请求(建议您手动关闭Windows自动睡眠和自动锁屏功能)</span> 
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div> -->
+        </main>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

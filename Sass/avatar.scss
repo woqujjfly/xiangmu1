@@ -1,0 +1,105 @@
+@import "base.scss";
+
+#showAvatar {
+    @include app;
+}
+
+main {
+    flex: 1;
+    padding-left: 31px;
+
+    .upload-button {
+        height: 34px;
+        margin-top: 20px;
+
+        button {
+            width: 88px;
+            height: 34px;
+            @include borderRadius4;
+
+            &.suggest-upload {
+                background-color: white;
+                border: 1px solid #ccc;
+
+                &:hover {
+                    background: rgba(18, 184, 255, 0.705);
+                }
+            }
+        }
+
+    }
+
+    .show-avatar {
+        margin-top: 20px;
+        display: flex;
+
+        .edit-avatar {
+            position: relative;
+            overflow: hidden;
+            height: 230px;
+            width: 230px;
+
+            .select-avatar {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                background: radial-gradient(transparent 115px, rgba(0, 0, 0, .2) 10px);
+            }
+        }
+
+        .preview-avatar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+
+            .img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .avatar-list {
+        margin-top: 22px;
+        display: flex;
+
+        .local-list,
+        .suggest-list {
+            flex: 1;
+
+            ul {
+                display: flex;
+                margin-top: 9px;
+
+                li {
+                    margin-right: 5px;
+
+                    .img {
+                        display: block;
+                        width: 42px;
+                        height: 42px;
+                        cursor: pointer;
+                        border: 2px solid transparent;
+
+                        &:hover {
+                            border-color: #89cff0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include buttonAction;

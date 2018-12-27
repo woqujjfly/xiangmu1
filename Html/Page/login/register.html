@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/register.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./register"></script>
+</head>
+
+<body>
+    <div id="registerApp" v-cloak>
+        <win-header :header="{logo: '欢迎注册', win: ['mini', 'closeCurrent']}"></win-header>
+        <main>
+            <form action="" class="register-info">
+                <div class="register-option">
+                    <input type="text" placeholder="请输入您的昵称" id="username">
+                </div>
+                <div class="register-option">
+                    <input type="password" placeholder="请输入您的密码" id="password">
+                </div>
+                <div class="register-option">
+                    <input type="password" placeholder="请再次输入您的密码" id="againPass">
+                </div>
+                <div class="register-option register-phone">
+                    <input type="text" placeholder="请输入您的手机号码" v-model='telephone' id="phone">
+                    <button class="get-code text-center" type="button" @click="getCode" id="getVcode">获取验证码</button>
+                </div>
+                <input type="text" placeholder="请输入您手机的验证码" v-model='Vcode' class="code">
+                <div class="agreement-option">
+                    <input type="checkbox" id="protocol" v-model='clause' name="protocol">
+                    <label for="protocol">
+                        <span>
+                            同意<span class="agreement" id="agreement">服务条款</span>并注册
+                        </span>
+                    </label>
+                </div>
+                <button id="button" type="button" @click="register">立即注册</button>
+            </form>
+        </main>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

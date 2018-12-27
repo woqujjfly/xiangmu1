@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>重新连接</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/sockettClose.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./SocketClose"></script>
+</head>
+
+<body>
+    <div class="" id="SocketCloseApp" v-cloak>
+        <div class="win-top">
+            <div class="logo">
+                <img src="../../static/images/logo.png" alt="">
+                <span>与服务器连接中断</span>
+            </div>
+            <ul class="win-setting">
+                <li class="close" @click="Me.Close(true)"></li>
+            </ul>
+        </div>
+        <main class="main">
+            <div v-if="!Linking">连接中断，程序在 {{CountDown &lt; 10 ? '0' + CountDown : CountDown}} 秒后重新尝试建立连接</div>
+            <div v-if='Linking'>正在连接服务器...</div>
+            <div v-if="errmsg.length &gt; 0">{{errmsg}}</div>
+        </main>
+        <footer class="footerAction">
+            <button  id="timeout" @click="Open()">立即重连</button>
+            <button @click="Me.Close(true)">忽略(不再连接)</button>
+        </footer>
+    </div>
+</body>
+
+</html>

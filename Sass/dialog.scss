@@ -1,0 +1,53 @@
+@import "base.scss";
+
+#dialogApp {
+    @include app;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    padding-left: 15px;
+    padding-top: 10px;
+    img{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.notice {
+    flex: 1;
+    margin-left: 15px;
+    line-height: 18px;
+    padding-right: 35px;
+    .notiveAction {
+        margin-top: 15px;
+        span{
+            color: $globalBgColor;
+            cursor: pointer
+        }
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    height: 40px;
+    line-height: 40px;
+    background: $eee;
+
+    button {
+        height: 26px;
+        padding: 0 15px;
+        background: #fff;
+        cursor: pointer;
+        @include borderRadius4;
+
+        &:hover {
+            background: #12ABFF;
+            color: $white;
+        }
+    }
+}

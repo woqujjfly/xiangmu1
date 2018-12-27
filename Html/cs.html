@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+
+    <script type="text/javascript">
+        function Closing() {
+            return true
+        }
+        function Open() {
+            System.Open({
+                Name: "Cs",
+                Text: "测试窗体",
+                Size: { Width: 430, Height: 330 },
+                MinSize: { Width: 800, Height: 600 },
+                //Url:"http://www.baidu.com"
+                Url: "cs.html",
+                ShowDevTools: true,
+                Location: { X: 100, Y: 100 }
+
+            }, function (s, err) {
+                console.log(s)
+                console.log(err)
+            })
+        }
+        function OpenDialog() {
+            System.Open({
+                Name: "Cs",
+                Text: "测试窗体",
+                Size: { Width: 800, Height: 600 },
+                Url: "cs.html",
+                Dialog: true,
+            }, function (s, err) {
+                console.log(s)
+                console.log(err)
+            })
+        }
+        var WebSocketPro = System.Require('WebSocketPro')
+        WebSocketPro.Message(function (s) { console.log(s) })
+        WebSocketPro.Closed(function () {
+
+        })
+        function Send() {
+            WebSocketPro.Send('{"Com":"Login"}')
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div id="sse">
+        <button onclick="Open()">打开窗口</button>
+        <button onclick="Me.Close()">关闭窗口</button>
+        <button onclick="System.Exit()">强制退出</button>
+        <button onclick="OpenDialog()">打开Dialog窗口</button>
+        <button onclick="Me.ShowDevTools()">打开调试窗口</button>
+        <button onclick="WebSocketPro.Open()">WebSocketPro.Open()</button>
+        <button onclick="Send()">WebSocketPro.Send()</button>
+        <button onclick="System.Error()">报错</button>
+    </div>
+
+</body>
+
+</html>

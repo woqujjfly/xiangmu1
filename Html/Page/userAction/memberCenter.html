@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/memberCenter.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./member"></script>
+</head>
+
+<body>
+    <div id="memberCenter">
+        <win-header :header="{logo: '会员专区——（开通服务）', win: ['mini', 'closeCurrent']}"></win-header>
+        <div class="out_border">
+            <div class="idWho">
+                <span>开通账号：</span>
+                <span>100002 （自己）</span>
+                <span @click="change">更换橙聊账号</span>
+            </div>
+            <div class="recharge_option">
+                <div class="recharge_box"  v-for="(saleMuch,index) in moneyNumber" :class="{clickChange:whitch==index }" @click="(whitch=index,downSale=saleMuch,customed=false)">
+                    <div class="number_money">
+                        <span>{{saleMuch*10}}</span>
+                        <span>橙币</span>
+                    </div>
+                    <p class="month_bi" :class="{white:whitch==index }">10橙币一月</p>
+                    <div class="down_line"></div>
+                    <p :class="{white:whitch==index}">{{saleMuch}}个月</p>
+                </div>
+
+                <div class="last"  :class="{clickChange:customed==true }" @click="custom">
+                    <div class="number_money">
+                        <span>{{monthNumber*10}}</span>
+                        <span>橙币</span>
+                    </div>
+                    <p class="month_bi" :class="{whited:customed==true}">10橙币/月</p>
+                    <div class="last_line"></div>
+                    <div class="addmonth">
+                        <span @click="moneyReduce"><img src="../../static/images/min_black.png" alt=""></span>
+                        <p :class="{whited:customed==true}">{{monthNumber}}个月</p>
+                        <span @click="moneyAdd"><img src="../../static/images/min_black.png" alt=""></span>
+                    </div>
+                </div>
+            </div>
+            <div class="long_line"></div>
+            <div class="payment">
+                <div class="payment_methods">
+                    <p>支付方式：</p>
+                    <ul id="parense">
+                        <li id="choose" v-for="(item,index) in salechance" @click="(saleIndex=index, onlychance=item)" :class="{borderYellow: saleIndex==index}">{{item}}支付
+                            <p class="pic_true" :class="{active: saleIndex==index}">✔</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="qr_code">
+                    <img src="" alt="">
+                    <div>
+                        <span>☞</span>
+                        <span>{{onlychance}} ，支付{{downSale*10}}元</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

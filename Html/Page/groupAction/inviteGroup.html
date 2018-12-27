@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>分享群</title>
+	<link rel="stylesheet" href="../../static/css/normalize.css">
+	<link rel="stylesheet" href="../../static/css/inviteGroup.min.css">
+	<link rel="stylesheet" href="../../static/css/iconfont.css">
+	<link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+	<script src="/Plugs/Module/require.js" data-main="./inviteGroup"></script>
+</head>
+
+<body>
+	<div class="user_info" id="inviteGroup" v-cloak>
+		<win-header :header="{logo: groupInfo.ShareGroup, win: ['mini','closeCurrent']}"></win-header>
+		<div class="group_content" :class='{inviteEnterGroup:friendInfo==0}'>
+			<ul class="group_left" v-show="friendInfo">
+				<li class="li_first" @click="action" :class='{active:showMember}'>填写信息</li>
+				<li @click="action" :class='{active:!showMember}'>邀请成员</li>
+			</ul>
+
+			<div class="group_menu" v-show='!showMember||!friendInfo'>
+				<div class="group_middle">
+					<input type="text" v-model="searchVal">
+					<p v-show="showP">没有找到您要搜索的联系人</p>
+					<ul class="searchUl" v-show="showFriendClass">
+						<li @click="moveLi(index,item)" v-for="(item,index) in searchLi">
+							<span class="img" style="background-image: url(../../static/images/head.png);"></span>
+							<span>{{item.Nick}}({{item.ID}})</span>
+						</li>
+					</ul>
+					<ul class="shareList" v-show="!showFriendClass">
+						<li v-for="(group,key,index) of groupInfo.contactGroup" class="leftTop">
+							<div class="shareItem" :class="{active: index == 0}" @click="angle(index)">
+								<i class="iconfont icon-xiayiye-copy contactAngle"></i>
+								<span>{{group.Name}}</span>
+							</div>
+							<ul class="sub-contacts" v-show="index == 0">
+								<li v-if="groupMember.indexOf(friend.ID+'')==-1" v-for="(friend,key,index2) of group.List" @click="moveLi(index2,friend)">
+									<span class="img" style="background-image: url(../../static/images/head.png);"></span>
+									<span>{{friend.Nick}}({{friend.ID}})</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="group_right">
+					<p>已选联系人 : {{Object.keys(shareLi).length}}/8</p>
+					<ul class="shareLi">
+						<li v-for="(item,index) in shareLi" class="checked">
+							<span class="img" style="background-image: url(../../static/images/smHead/sm-user0.png);"></span>
+							<span>{{item.Nick}}({{item.ID}})</span>
+							<i @click="deleteLi(item)" class="iconfont icon-close opcity"></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="group_menu2" v-show='showMember && friendInfo'>
+				<label>
+					<span>群名称:</span>
+					<input class="groupName" type="text">
+				</label>
+				<label>
+					<span>群公告:</span>
+					<textarea class="groupNotice" name="" id="" cols="30" rows="10"></textarea>
+				</label>
+				<div class="verify">
+					<span>加群验证 :</span>
+					<label class="addVerify"><input type="radio" name='verification' value="0" checked>允许任何人</label>
+					<label class="addVerify"><input type="radio" name='verification' value="100">不允许任何人</label>
+				</div>
+			</div>
+		</div>
+		<footer class="footerAction">
+			<button class="cancle" v-if="friendInfo==1" @click="action">{{showMember ? "下一步" : "上一步"}}</button>
+			<button class="confirm" v-if="friendInfo==1" @click="confirm">确定</button>
+			<button class="confirm" @click="join" v-if="friendInfo==0">邀请</button>
+		</footer>
+	</div>
+	<script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

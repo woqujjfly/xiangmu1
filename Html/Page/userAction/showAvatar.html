@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改头像</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/avatar.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./showAvatar"></script>
+</head>
+
+<body>
+    <div class="showavatar" id="showAvatar" v-cloak>
+        <win-header :header="{logo: '修改头像', win: ['mini','closeCurrent']}"></win-header>
+        <main>
+            <div class="upload-button">
+                <button class="suggest-upload" @click="suggestAvatar">推荐头像</button>
+            </div>
+            <div class="show-avatar">
+                <div class="edit-avatar">
+                    <span class="useImg img" style="background-image: url(../../static/images/userHead/beautiful_1.webp)"></span>
+                    <div class="select-avatar"></div>
+                </div>
+                <div class="preview-avatar">
+                    <span class="msg">头像预览 :</span>
+                    <span class="useImg img" style="background-image: url(../../static/images/userHead/beautiful_1.webp)"></span>
+                    <span class="formart">图片仅支持JPG、PNG、WEBP格式</span>
+                </div>
+            </div>
+            <div class="avatar-list">
+                <div class="suggest-list">
+                    <span>推荐使用 :</span>
+                    <ul>
+                        <li v-for="index in 5" class='command' @click="recommendImg(index)">
+                            <span class="img" :style="'background-image: url(../../static/images/userHead/prospect_' + index +'.webp)'"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="local-list">
+                    <span>我使用过的头像 :</span>
+                    <ul>
+                        <li v-for="index in 5" @click="usedImg(index)">
+                            <span class="img" :style="'background-image: url(../../static/images/userHead/dream_' + index +'.webp)'"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <footer class="footerAction">
+            <button class="cancle" type="button">取消</button>
+            <button class="confirm" type="button" @click='confirm'>确定</button>
+        </footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

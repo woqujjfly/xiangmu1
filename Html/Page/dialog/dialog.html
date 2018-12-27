@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../../static/css/normalize.css">
+	<link rel="stylesheet" href="../../static/css/dialog.min.css">
+	<link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+	<title>掉线通知</title>
+	<script src="/Plugs/Module/require.js" data-main="./dialog"></script>
+</head>
+
+<body>
+	<div id="dialogApp" v-cloak>
+		<div class="win-top">
+			<div class="logo">
+				<img src="../../static/images/logo.png" alt="">
+				<span>下线通知</span>
+			</div>
+			<ul class="win-setting">
+				<li class="close" @click="Me.Close(true)"></li>
+			</ul>
+		</div>
+		<main>
+			<img src="../../static/images/warning.png" alt="">
+			<div class="notice">
+				<p>{{userinfo.Nick}}({{userinfo.ID}})</p>
+				<p>您的账号 {{new Date().Format('hh:mm')}} 在另一个地点登录了橙聊, 已被迫下线。</p>
+				<div class="notiveAction">
+					<!-- <p>如果这不是你本人的操作，那么你的密码很可能已泄露。建议你<span>修改密码</span>或<span>紧急冻结橙聊</span></p> -->
+				</div>
+			</div>
+		</main>
+		<footer>
+			<button @click="Open()">重新登录</button>
+			<button @click="System.Exit()">确定</button>
+		</footer>
+	</div>
+	<script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

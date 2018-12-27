@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>橙聊</title>
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/iconfont.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <link rel="stylesheet" href="../../static/css/index.min.css">
+    <script src="/Plugs/Module/require.js" data-main="./index"></script>
+</head>
+
+<body>
+    <div id="indexApp" @click="(settingMenu=false,showStatusList=false)" @contextmenu="(settingMenu=false,showStatusList=false)"  v-cloak>
+        <header>
+            <win-header :header="{logo: '橙聊', win:win}"></win-header>
+            <div class="user">
+                <div class="user-avatar">
+                    <span @click="openPersonalFile()" class="selfData" :class="{'black': onlineType==OnlineType.离线}"></span>
+                    <span :style="'background: url(../../static/images/status/online' + onlineType + '.png) no-repeat;'"
+                        class="online" :class="{'black': onlineType==OnlineType.离线}" @click.stop="showStatusList=true"></span>
+                </div>
+                <ul class="statusList" v-if="showStatusList">
+                    <li v-for="(item, index) in OnlineType" v-if="isNaN(item)" @click="selectStatus(index)">
+                        <span :style="'background: url(../../static/images/status/online' + index + '.png) no-repeat;'"
+                            class="img"></span>
+                        <span>{{item}}</span>
+                    </li>
+                </ul>
+                <div class="userinfo">
+                    <h3>{{userData.Nick}}</h3>
+                    <input type="text" v-model='userData.Vsign' @blur='changeSign' id="personalSign" placeholder='编辑个性签名'>
+                </div>
+            </div>
+            <div class="search">
+                <span class="img"></span>
+                <input type="text" placeholder="搜索" id="searchfriend" v-model="searchVal">
+            </div>
+        </header>
+        <main v-show="!searchVal" class="main">
+            <ul class="select tc">
+                <li v-for="(item, index) in showList" @click.stop="(listType=item)" :class="{active: listType==item}">
+                    <span :style="'background: url(../../static/images/index/' + item + '-checked.png)'" v-if="listType == item"></span>
+                    <span :style="'background: url(../../static/images/index/' + item + '.png)'" v-else></span>
+                </li>
+            </ul>
+            <div class="session-list subject" v-show="'session' == listType">
+                <ul>
+                    <li v-for="(item, key, index) of sessionList" class="session-item" @click="(sessionIndex=index)"
+                        @dblclick="{item.IsPerson ? openASession(item) : openGroupChat(item)}" @contextmenu="rightMenu(item)"
+                        :class="{'active': sessionIndex==index}">
+                        <span class="item-img" style="background-image: url('../../static/images/headp.png')"
+                            :class="{'black': (onlineType==OnlineType.离线 && item.IsPerson) || (item.OnlineType!=0 && item.IsPerson)}"></span>
+                        <div class="iteminfo">
+                            <h4 v-if="item.IsPerson">
+                                <span v-if="item.Remark" class="remark">{{item.Remark}}</span>
+                                <span v-else>{{item.Nick}}</span>
+                            </h4>
+                            <h4 v-else>
+                                {{item.Name}}
+                            </h4>
+                            <p>{{item.LastMsg}}</p>
+                        </div>
+                        <span class="date">
+                            {{new Date(Number(item.SendTime)).toDateString() === new Date().toDateString() ?
+                            (new Date().Format("hh:mm", Number(item.SendTime))) : date(Number(item.SendTime))}}
+                        </span>
+                        <span class="unread" v-if="item.UnRead">{{item.UnRead > 99 ? '99+' : item.UnRead}}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="contact-wrap" v-show="'contacts' == listType">
+                <ul class="contact-list">
+                    <!-- 分组 -->
+                    <li v-for="(contact, key, index) of contactGroup" @contextmenu="rightMenu(contact)">
+                        <div @click="angle($event,index)">
+                            <i class="iconfont icon-xiayiye-copy contactAngle"></i>
+                            <span class="contact-group-name">{{contact.Name}}</span>
+                            <span class="contact-total">{{ onlineType==OnlineType.离线 ||
+                                Object.keys(contact.List).length==0
+                                ? 0 : contact.OnlineNum}}/{{Object.keys(contact.List).length}}</span>
+                        </div>
+                        <ul class="sub-contacts" v-show="false">
+                            <li class="session-item" v-for="(item,index2) in contact.List" @click="contactNum=item.ID"
+                                @contextmenu.stop="rightMenu(item)" @dblclick="openASession(item)" :class="{'active': contactNum==item.ID}">
+                                <span class="item-img" style="background-image: url('../../static/images/headp.png')"
+                                    :class="{'black': onlineType==OnlineType.离线 || item.OnlineType!=0}"></span>
+                                <div class="iteminfo">
+                                    <h4 v-if="item.Remark">
+                                        <span class="remark">{{item.Remark}}</span>
+                                        <span class="nick">({{item.Nick}})</span>
+                                    </h4>
+                                    <h4 v-else>{{item.Nick}}</h4>
+                                    <p>{{item.Vsign}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+
+            <div class="group-list subject" v-show="'group' == listType">
+                <ul class="contact-list">
+                    <li v-for="(item, key,index) of groups" class="session-groups" @click="(groupNum=key)" @dblclick="openGroupChat(item)"
+                        :class="{'active': groupNum==key}" @contextmenu.stop="rightMenu(item)">
+                        <span class="item-img" style="background-image: url('../../static/images/headp.png')"></span>
+                        <div class="iteminfo">
+                            <h4 v-if="item.GroupRemark">{{item.GroupRemark}}</h4>
+                            <h4 v-else>{{item.Name}}</h4>
+                            <!-- <p v-if="groupNum==key">我在家</p> -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+        <main v-show="searchVal" class="searchfriendGroup" id="searchfriendGroup">
+            <p class="searchTitle">好友</p>
+            <p class='hint' v-show='Object.keys(searchPerson).length==0'>没有搜索到符合条件的好友</p>
+            <ul id="searchpeople">
+                <li v-for="(item,key, index) of searchPerson" :class="{hidden: (index &gt; 0 && examineP==true),show:examineP==false}"
+                    class="session-item" :class="{active:searchPersonActive==item.ID}" @click="picked(listType='contacts',searchPersonActive=item.ID)"
+                    @dblclick="openASession(item)">
+                    <span class="item-img" style="background-image: url('../../static/images/headp.png')"
+                        :class="{'black': onlineType==OnlineType.离线 || item.OnlineType!=0}"></span>
+                    <div class="iteminfo">
+                        <h4 v-if="item.Remark" class="remark">{{item.Remark}}</h4>
+                        <h4 v-else>{{item.Nick}}</h4>
+                        <p>{{item.Vsign}}</p>
+                    </div>
+                </li>
+                <p class="examine" v-show='Object.keys(searchPerson).length &gt; 1' @click="showHidden('people')">
+                    <span v-if='examineP'>查看更多</span>
+                    <span v-else>收起</span>
+                </p>
+            </ul>
+            <p class="searchTitle">群聊</p>
+            <p class='hint' v-show='Object.keys(searchGroup).length==0'>没有搜索到符合条件的群组</p>
+            <ul id="searchgroups">
+                <li :class="{hidden: (index&gt;3 && examine==true),show:examine==false}" v-for="(item,key, index) of searchGroup"
+                    class="session-item" :class="{active:searchGroupActive==ite.IDm}" @click="picked(listType='group',searchGroupActive=item.ID)"
+                    @dblclick="openGroupChat(item)">
+                    <span class="item-img" style="background-image: url('../../static/images/headp.png')"></span>
+                    <div class="iteminfo">
+                        <h4>{{item.Name}}</h4>
+                        <!-- <p>我在家</p> -->
+                    </div>
+                </li>
+            </ul>
+            <p class="examine" v-show="Object.keys(searchGroup).length &gt; 3" @click="showHidden('groups')">
+                <span v-if='examine'>查看更多</span>
+                <span v-else>收起</span>
+            </p>
+        </main>
+        <footer>
+            <ul class="setting">
+                <li @click.stop="(settingMenu = !settingMenu)">
+                    <span class="menu img"></span>
+                </li>
+                <li @click="openSearch">
+                    <span class="add img"></span>
+                </li>
+                <li @click='openSetting'>
+                    <span class="settingImg img"></span>
+                </li>
+            </ul>
+        </footer>
+        <ul class="setting-list" v-if="settingMenu" @click="settingMenu=false">
+            <li @click="inviteGroup">创建群</li>
+            <li @click="friendVerification" class="border-bottom">好友验证</li>
+            <li @click="showAvatar">头像显示</li>
+            <li @click="modifyPass" class="border-bottom">
+                <span class="img modifyPass"></span>
+                <span>修改密码</span>
+            </li>
+            <li @click="System.Exit()">
+                <span class="img exit"></span>
+                <span>退出</span>
+            </li>
+            <li @click="openMember">开会员</li>
+        </ul>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

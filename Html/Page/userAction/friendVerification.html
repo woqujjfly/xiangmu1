@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="/Plugs/Module/require.js" data-main="./friendVerification"></script>
+	<link rel="stylesheet" href="../../static/css/friendVerification.min.css">
+	<link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+	<title>验证信息</title>
+</head>
+
+<body>
+	<div id="friendVerification" v-cloak>
+		<div class="top">
+			<win-header :header="{logo: '验证消息', win: ['mini', 'closeCurrent']}"></win-header>
+			<ul class="title">
+				<li v-on:click='move(event,0)'>好友验证</li>
+				<li v-on:click='move(event,1)'>群系统消息</li>
+				<div class="triangle"></div>
+			</ul>
+		</div>
+		<div class="information" v-show="!requestFriend.VerifyType">
+			<ul class="verifyList">
+				<li class="waiting" v-for="(item, index) of requestFriend.List">
+					<span class="headImg img" style="background-image: url(../../static/images/avatar_2.png);"></span>
+					<div class="describe">
+						<h4>{{item.Nick}}<span>来自条件查找</span></h4>
+						<p>{{item.Sex == 0 ? '女' : '男'}} <span v-show='item.Age'>{{item.Age}}岁</span></p>
+						<p v-if="!requestFriend.Action"><span>附加消息 :{{item.MyVerify}}</span>&nbsp;申请加我为好友
+					</div>
+					<div class="btn">
+						<select @change="selectResponse(event, item, index)" id="verify" class="consent" name="">
+							<option value="">请选择</option>
+							<option value="同意">同意</option>
+							<option value="拒绝">拒绝</option>
+						</select>
+						<button @click="ignore(item, index)" class="ignore">忽略</button>
+					</div>
+					<p class="actionResult"></p>
+				</li>
+			</ul>
+		</div>
+		<div class="Cinformation" v-show="requestFriend.VerifyType">
+			<p>今天</p>
+			<ul v-if="requestFriend.VerifyType">
+				<li class="waiting" v-for="(item, index) of requestFriend.List">
+					<span class="headImg img" style="background-image: url(../../static/images/avatar_2.png);"></span>
+					<div class="describe">
+						<p v-show=requestFriend.Type==1><a href="">{{item.Nick}}</a>退出群{{requestFriend.Name}}</p>
+						<p v-show=requestFriend.Type==100><a href="">{{item.Nick}}</a>解散了{{requestFriend.Name}}该群</p>
+						<p v-show=requestFriend.Type==0>您被移除<a href="">{{item.Name}}</a>群</p>
+						<p v-show=requestFriend.Type==3&&requestFriend.IsAdmin>您成为<a href="">{{item.Name}}</a> 的管理员</p>
+						<p v-show=requestFriend.Type==3&&!requestFriend.IsAdmin>您被取消<a href="">{{item.Name}}</a> 的管理员</p>
+					</div>
+					<!-- <div class="btn" v-if=!requsetGroup.VerifyType>
+						<select id="verifyG" class="consent" name="">
+							<option value="consent">请选择</option>
+							<option value="consent">同意</option>
+							<option value="consent">拒绝</option>
+						</select>
+						<button  class="ignore"  @click="ignore(item, index)">忽略</button>
+					</div> -->
+				</li>
+			</ul>
+			<p class="text-center linear">以上为待处理消息</p>
+			<p>1月16日</p>
+			<ul>
+				<li class="waiting waited">
+					<span class="headImg img" style="background-image: url(../../static/images/avatar_2.png);"></span>
+					<div class="describe">
+						<p><a href="">苹果土豆（小杨...</a>邀请你加入群<a href="">西瓜番茄...</a></p>
+					</div>
+					<span class="result">已同意</span>
+				</li>
+			</ul>
+			<p class="text-center">没有更多消息</p>
+		</div>
+
+
+		<div id="selsct" v-if="agree">
+			<div class="win-top">
+				<div class="logo">
+					<span class="img"></span>
+					<span class="title">添加</span>
+				</div>
+				<ul class="win-setting">
+					<li class="close" @click="(agree=false)"></li>
+				</ul>
+			</div>
+			<div class="selectMain">
+				<div>
+					<span>好友备注:</span>
+					<input id="remark" type="text">
+				</div>
+				<div class="describe">
+					<span>好友分组:</span>
+					<select id="friendGroup" name="">
+						<option v-for="(item,key,index) of friendGroup" :value="key">{{item}}</option>
+					</select>
+					<span class="newProject" @click="addFriendGroup">新建</span>
+				</div>
+			</div>
+			<div class="footer">
+				<button @click="confirm">确定</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+@import "base.scss";
+
+#personalBackground {
+    @include app;
+    flex-direction: row;
+
+    #personalSign {
+        width: 150px;
+        height: 20px;
+        background: #12ABFF;
+        border: 1px solid transparent;
+        color: white;
+
+        &:focus {
+            border: 1px solid white;
+            background: white;
+            color: $black;
+            border-radius: 2px;
+        }
+
+        &:hover {
+            border: 1px solid white;
+            border-radius: 2px;
+        }
+
+        -webkit-app-region: no-drag;
+    }
+
+    .cover {
+        width: 360px;
+        display: flex;
+        flex-direction: column;
+        -webkit-app-region: drag;
+
+        .cover_bg {
+            height: 360px;
+            background: url(../images/cover_bg.webp);
+
+            .cover_title {
+                display: flex;
+
+                .logo {
+                    background: url(../images/logo.png) no-repeat center;
+                    width: 17px;
+                    height: 17px;
+                    display: inline-block;
+                }
+
+                // -webkit-app-region: drag;
+                padding: 12px 12px;
+
+                >span {
+                    color: white;
+                }
+            }
+        }
+
+        .user_bg {
+            flex: 1;
+            background: #12ABFF;
+            display: flex;
+            flex-direction: column;
+            padding-left: 60px;
+            padding-top: 15px;
+            padding-right: 60px;
+
+            button {
+                &:hover {
+                    background: white;
+
+                }
+            }
+
+            .user {
+                display: flex;
+                margin-bottom: 10px;
+
+                img {
+                    margin-right: 20px;
+                }
+
+                div {
+                    display: flex;
+                    flex-direction: column;
+
+                    h4 {
+                        font-weight: 400;
+                        font-size: 26px;
+                        color: white;
+                        display: inline-block;
+                    }
+
+                    p {
+                        color: white;
+                        display: inline-block;
+                    }
+                }
+
+            }
+
+            .person {
+                padding-top: 20px;
+
+                .headPic {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                    display: inline-block;
+                    background: url(../images/headp.png) no-repeat center;
+                    margin-right: 5px;
+                }
+            }
+
+            .addFriend {
+                display: flex;
+                -webkit-app-region: no-drag;
+
+                .add {
+                    flex: 1;
+                }
+
+                .sendMessage {
+                    flex: 1;
+                }
+
+                button {
+                    height: 32px;
+                    // background: white;
+                    font-weight: 400;
+                    font-size: 14px;
+                    border-radius: 4px;
+                }
+            }
+
+        }
+    }
+
+    hr {
+        width: 320px;
+        margin: 0px auto;
+        border: none;
+        margin-top: 13px;
+        height: 1px;
+        background: #DDD;
+    }
+
+    .userMessage {
+        display: flex;
+        flex-direction: column;
+
+        .user_list {
+            span {
+                background-repeat: no-repeat !important;
+                background-position: center !important;
+            }
+
+            .logo {
+                background: url(../images/logo_black.png);
+            }
+
+            .nick {
+                background: url(../images/icons/nick.png);
+            }
+
+            .remark {
+                background: url(../images/icons/remark.png);
+            }
+
+            .modifyname {
+                background: url(../images/icons/modifyname.png);
+            }
+
+            .grouping {
+                background: url(../images/icons/grouping.png);
+            }
+
+            .sex {
+                background: url(../images/icons/sex.png);
+            }
+
+            .location {
+                background: url(../images/icons/location.png);
+            }
+
+            .vip {
+                background: url(../images/icons/vip.png);
+            }
+
+            .jewel {
+                background: url(../images/icons/jewel.png);
+            }
+
+            .Vsign {
+                background: url(../images/icons/Vsign.png);
+            }
+
+            #friendgroup {
+                margin-left: 11px;
+                border: 1px solid transparent;
+
+                &:hover {
+                    border: 1px solid $eee;
+                }
+            }
+
+            .amendRemark {
+                margin-left: 0;
+                width: 50px;
+                height: 26px;
+                text-indent: 2px;
+            }
+
+            .focus {
+                border: 1px solid $eee;
+            }
+
+            ul {
+                li {
+                    display: flex;
+                    align-items: center;
+
+                    p {
+                        display: inline-block;
+                    }
+
+                    span {
+                        display: inline-block;
+                        width: 17px;
+                        height: 22px;
+                        margin: 0px 10px 0 5px;
+
+                    }
+
+                    a:hover {
+                        color: rgb(121, 207, 253);
+                    }
+                }
+            }
+        }
+
+        .info_list {
+
+            .info_menu {
+                padding-top: 10px;
+
+                .msg {
+                    background: url(../images/icons/msg.png) no-repeat center;
+                    display: inline-block;
+                    width: 17px;
+                    height: 22px;
+                    margin: 4px 10px 0 5px;
+                }
+
+                >li {
+                    display: flex;
+                }
+
+                .special {
+                    color: #BEC1C9;
+                }
+
+                .first {
+                    span {
+                        margin-left: 32px;
+                        color: #BEC1C9;
+                    }
+
+                    p {
+                        display: inline-block;
+                        margin-left: 10px;
+                        color: #BEC1C9;
+                    }
+                }
+            }
+
+            >button {
+                display: flex;
+                margin: auto;
+                width: 92px;
+                height: 28px;
+                padding-left: 20px;
+                color: #BEC1C9;
+                border: 1px solid #eee;
+                border-radius: 4px;
+                background: white;
+                margin-top: 30px;
+
+                &:hover {
+                    background: #BEC1C9;
+                    color: white;
+                }
+            }
+        }
+
+        ul {
+            li {
+                padding-left: 20px;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 32px;
+
+                .member {
+                    margin: 0 5px;
+                    position: relative;
+                    top: -2px;
+                }
+
+                a {
+                    color: #12ABFF;
+                }
+
+                img {
+                    margin-right: 20px;
+                }
+
+                input {
+                    margin-left: 10px;
+                    width: auto;
+                    border: hidden;
+                }
+            }
+        }
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .minsize {
+        background: url('../images/min_black.png') no-repeat;
+
+        &:hover {
+            background-color: rgba(18, 184, 255, 0.705);
+        }
+    }
+
+    .close {
+        background: url('../images/close_black.png') no-repeat;
+
+        &:hover {
+            background-color: red;
+        }
+    }
+
+    .win-top {
+        background: white;
+    }
+
+    .userMessage {
+        flex: 1;
+    }
+
+}

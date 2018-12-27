@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/addfriend.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./addGroup"></script>
+    <title>添加</title>
+</head>
+
+<body>
+    <div id="addGroupApp" v-cloak>
+        <win-header :header="{logo:'添加群', win: ['mini', 'closeCurrent']}"></win-header>
+        <div class="addGroup">
+            <div class="friendsInfo">
+                <span class="user_img"></span>
+                <ul class="info_list">
+                    <li>
+                        <p>群名称:{{groupInfo.Name}}</p>
+                        <p>群主:{{groupInfo.GroupOwnerID}}</p>
+                        <p>简介:{{groupInfo.Introduce}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div v-show="addGroups" class="friendsDetail">
+                <span>请输入验证信息</span>
+                <textarea name="" id="GroupsValidationMsg" placeholder="我是....."></textarea>
+            </div>
+            <div v-show="!addGroups" class="friendsDetail">
+                <div class="friendRequest">
+                    <span class="img"></span>
+                    <p>您的加群请求已经发送成功,请等候群主/管理员验证</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footerAction">
+            <button class="cancle" @click="nextStep" v-if="addGroups">下一步</button>
+            <button class="confirm" @click="Me.Close(true)">{{winActionName}}</button>
+        </footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

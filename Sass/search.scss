@@ -1,0 +1,143 @@
+@import "base.scss";
+
+#searchApp {
+    @include app;
+}
+
+.search_info {
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .search_menu {
+        display: flex;
+        height: 40px;
+        background-color: #12ABFF;
+        color: white;
+        align-items: center;
+        font-size: 16px;
+        justify-content: space-around;
+        padding: 0 140px;
+
+        .triangle {
+            position: absolute;
+            top: 62px;
+            left: 215px;
+            border-left: 5px;
+            border-right: 5px;
+            border-bottom: 5px;
+            border-style: solid;
+            border-color: transparent transparent white;
+            margin: 0 auto;
+            transition: left 0.1s linear;
+        }
+
+        li {
+            position: relative;
+            text-align: center;
+
+            &:hover {
+                color: black;
+                cursor: pointer
+            }
+        }
+
+    }
+
+    .search_input {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 400px;
+        margin: 0 auto;
+
+        div {
+            width: 34px;
+            height: 34px;
+            background: #12ABFF url(../images/search.png) center center no-repeat;
+            position: absolute;
+            top: 25px;
+            right: 0;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        input {
+            border: 1px solid $eee;
+            width: 400px;
+            height: 34px;
+            margin-top: 25px;
+            border-radius: 20px;
+            text-indent: 30px;
+            line-height: 30px;
+        }
+    }
+
+    .search_content {
+        >p {
+            margin-left: 30px;
+            margin-top: 30px;
+        }
+
+        .userinfo {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            height: 205px;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+
+            .userList {
+                padding: 0px 10px 20px 20px;
+                display: flex;
+                cursor: pointer;
+
+                .msg {
+                    margin-left: 5px;
+
+                    >p {
+                        @include textOverflow;
+                        width: 90px;
+
+                        &:hover {
+                            color: #12ABFF;
+                        }
+                    }
+                }
+
+                >span {
+                    display: block;
+                    width: 56px;
+                    height: 56px;
+                    border: 1px solid transparent;
+                    border-radius: 50%;
+
+                    &:hover {
+                       border-color: #12ABFF;
+                    }
+                }
+                .groupsBtn{
+                    margin-top: 15px;
+                }
+                button {
+                    margin-top: 3px;
+                    border-radius: 4px;
+                    height: 22px;
+                    width: 60px;
+                    background: #1bafff;
+                    color: $white;
+
+                    &:hover {
+                        color:black;
+                        background: #00a6ff;
+                    }
+                }
+            }
+        }
+    }
+}

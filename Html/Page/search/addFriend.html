@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/normalize.css">
+    <link rel="stylesheet" href="../../static/css/addfriend.min.css">
+    <link rel="stylesheet" href="../../Plugs/Module/layer/theme/default/layer.css">
+    <script src="/Plugs/Module/require.js" data-main="./addFriend"></script>
+    <title>添加</title>
+</head>
+
+<body>
+    <div id="addFriendApp" v-cloak>
+        <win-header :header="{logo:'添加好友', win: ['mini', 'closeCurrent']}"></win-header>
+        <div class="newFriends">
+            <div class="friendsInfo">
+                <span class="user_img"></span>
+                <ul class="info_list">
+                    <li>
+                        <p>{{friendInfo.Nick}}</p>
+                        <p>{{friendInfo.ID}}</p>
+                        <p class="msg">性别:
+                            <span v-if='friendInfo.Sex==0'>女</span>
+                            <span v-else>男</span>
+                        </p>
+                        <p class="msg">年龄:{{friendInfo.Age?friendInfo.Age:'&nbsp;-'}}</p>
+                        <p class="msg">所在地:{{friendInfo.HomeTown?friendInfo.HomeTown:'&nbsp;-'}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="friendsDetail friendOne" v-show="stepTwo">
+                <span class="describe"> <span class="title">备注姓名:</span><input id="remark" type="text"> </span>
+                <span class="describe"> <span class="title">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组:</span> <select id="friendGroup" name="">
+                        <option v-for="(item,key,index) of friendGroup" :value='key'>{{item}}</option>
+                    </select>
+                    <span @click="addFriendGroup">新建分组</span>
+                </span>
+            </div>
+            <div v-show="stepThree" class="friendsDetail" v-show="stepThree">
+                <div class="friendRequest">
+                    <span class="img"></span>
+                    <p>您的好友添加请求已经发送成功,<br>正在等待对方确认.</p>
+                </div>
+            </div>
+            <div v-show="stepOne" class="friendsDetail">
+                <span>请输入验证信息</span>
+                <textarea name="" id="ValidationMsg" placeholder="我是....."></textarea>
+            </div>
+        </div>
+        <footer class="footerAction">
+            <button class="cancle" @click="nextStep" v-if="!stepThree">下一步</button>
+            <button class="confirm" @click="Me.Close(true)">{{winActionName}}</button>
+        </footer>
+    </div>
+    <script src="../../Plugs/Module/jQuery.js"></script>
+</body>
+
+</html>

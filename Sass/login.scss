@@ -1,0 +1,183 @@
+@import "base.scss";
+
+.login {
+	@include app;
+}
+
+.login-top {
+	position: relative;
+	z-index: 9;
+	display: flex;
+	height: 130px;
+	background: url('../images/login/little-bg.png');
+	-webkit-app-region: drag;
+
+	.user {
+		position: relative;
+		margin: 35px auto 0;
+		width: 72px;
+		height: 72px;
+		-webkit-app-region: no-drag;
+		.user-avatar{
+			display: block;
+			width: 72px;
+			height: 72px;
+			border-radius: 50%;
+			background: url(../../static/images/headp.png) no-repeat center/100%;
+		}
+		.online {
+			position: absolute;
+			right: 3px;
+			bottom: 5px;
+			width: 15px;
+			height: 15px;
+		}
+
+		.statusList {
+			position: absolute;
+			top: 75px;
+			left: 60px;
+			width: 120px;
+			padding: 5px 0;
+			background: $white;
+			@include borderRadius4;
+			box-shadow: 0 0 5px #ccc;
+			z-index: 999;
+			-webkit-app-region: no-drag;
+
+			li {
+				text-indent: 15px;
+				line-height: 26px;
+				color: #333;
+
+				&:hover {
+					background: #eee;
+				}
+
+				.img {
+					display: inline-block;
+					width: 15px;
+					height: 15px;
+					position: relative;
+					top: 3px;
+					margin-right: 5px
+				}
+			}
+		}
+	}
+}
+
+.login-content {
+	position: relative;
+	padding-top: 25px;
+	background: $white;
+	width: 240px;
+	margin: 0 auto;
+	-webkit-app-region: no-drag;
+
+	.headIcon {
+		@include levelAlign;
+		top: -35px;
+		width: 70px;
+		height: 70px;
+		border-radius: 50%;
+		box-shadow: -2px 2px 4px rgba(113, 175, 247, .7);
+	}
+
+	.login-info {
+		position: relative;
+		margin: auto;
+		color: $gray;
+		height: 33px;
+		margin-bottom: 5px;
+
+		input {
+			color: $gray;
+			font-size: 14px;
+			text-indent: 30px;
+			border-bottom: 1px solid $eee;
+
+			&:hover {
+				border-color: #ccc;
+			}
+
+			&:focus {
+				border-color: #12b7f5
+			}
+		}
+		#username{
+			background: url(../../static/images/login/access.png) no-repeat 0 center;
+		}
+		#password{
+			background: url(../../static/images/login/pass_2.png) no-repeat 0 center;
+		}
+		.look{
+			@include verticalAlign;
+			right: 0;
+			width: 20px;
+			background: url(../../static/images/login/biyan.png) no-repeat;
+		}
+
+		input,
+		button {
+			width: 100%;
+			height: 32px;
+		}
+
+		button {
+			height: 36px;
+			line-height: 36px;
+			color: $white;
+			background: $globalBgColor;
+			font-size: 16px;
+			border-radius: 4px;
+
+			&:hover {
+				background: rgba(18, 171, 255, 0.6);
+			}
+
+			&:active {
+				background: rgba(18, 171, 255, .8)
+			}
+		}
+	}
+
+	.login-option {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 15px;
+
+		.register {
+			color: $globalBgColor
+		}
+
+		span,
+		.register {
+			position: relative;
+			top: -2px;
+			left: 2px;
+		}
+
+		span {
+			color: $gray;
+		}
+	}
+
+	.button {
+		margin-top: 10px;
+		text-align: center;
+	}
+}
+
+.login-account {
+	margin-top: 20px;
+	display: flex;
+	justify-content: space-between;
+
+	a {
+		color: #a61817;
+		line-height: 20px;
+		font-size: 14px;
+		font-weight: bold;
+	}
+}

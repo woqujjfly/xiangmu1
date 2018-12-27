@@ -1,0 +1,257 @@
+$globalBgColor:  #12ABFF;
+$white: #fff;
+$eee: #eee;
+$gray: #999;
+$black: #000;
+$ccc:#ccc;
+
+html,
+body {
+	height: 100%;
+	font-size: 12px;
+	font-family: "Microsoft YaHei";
+	-webkit-user-select: none;
+	cursor: default; 
+	
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	background: #eee
+}
+
+::-webkit-scrollbar-thumb {
+	min-height: 50px;
+	background-clip: content-box;
+	box-shadow: 0 0 0 5px #ccc inset
+}
+
+input,
+button {
+	outline: none;
+	border: none;
+}
+
+button {
+	cursor: default;
+}
+
+ul,
+ol,
+li {
+	list-style: none;
+}
+
+a,
+a:hover {
+	text-decoration: none;
+}
+
+
+textarea {
+	resize: none;
+}
+
+img {
+	vertical-align: middle;
+}
+
+.tc {
+	text-align: center;
+}
+
+[v-cloak] {
+	display: none !important;
+}
+
+@mixin app {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background: #fff;
+}
+
+@mixin textOverflow {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap
+}
+
+@mixin verticalAlign {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+
+@mixin levelAlign {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+@mixin posCenter {
+	@include levelAlign;
+	@include verticalAlign;
+}
+
+@mixin userinfo {
+	.item-img {
+		width: 42px;
+		height: 42px;
+		align-self: center;
+		border-radius: 50%;
+		background-position: center;
+		background-size: cover;
+		-webkit-app-region: no-drag;
+	}
+
+	.iteminfo {
+		margin-left: 10px;
+		flex: 1;
+
+		h4,
+		p {
+			@include textOverflow;
+			padding-right: 20px;
+			line-height: 20px;
+		}
+
+		h4 {
+			font-size: 14px;
+			color: $black;
+		}
+
+		p {
+			color: $gray;
+			font-size: 12px;
+		}
+	}
+}
+
+@mixin borderRadius4 {
+	border-radius: 4px;
+}
+
+@mixin buttonAction {
+	.footerAction {
+		line-height: 40px;
+		text-align: right;
+		line-height: 40px;
+		background: $eee;
+
+		button {
+			margin-right: 15px;
+			min-width: 60px;
+			height: 26px;
+			@include borderRadius4
+		}
+	}
+}
+
+.cancle {
+	background: $white;
+	border: 1px solid $gray;
+	color: $black;
+
+	&:hover {
+		background: $eee;
+	}
+}
+
+
+.confirm {
+	background: $globalBgColor;
+	color: $white;
+
+	&:hover {
+		background: rgba(18, 171, 255, .6);
+	}
+}
+
+input[type=text] {
+	height: 32px;
+}
+
+textarea,
+select {
+	border-color: $eee;
+	@include borderRadius4;
+}
+
+.win-top {
+	position: relative;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 15px;
+	background: $globalBgColor;
+	-webkit-app-region: drag;
+
+	.logo {
+		display: flex;
+		align-items: center;
+
+		.img {
+			width: 18px;
+			height: 18px;
+			background: url("../images/icon.png");
+		}
+	}
+
+	.logoName {
+		margin-left: 5px;
+		font-size: 14px;
+		color: $white;
+	}
+}
+
+.win-setting {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	-webkit-app-region: no-drag;
+	z-index: 9999;
+
+	li {
+		width: 30px;
+		height: 30px;
+
+		&.minsize {
+			background: url('../images/min.png');
+		}
+
+		&.close {
+			background: url('../images/close.png');
+		}
+
+		&:hover {
+			background-color: rgba(255, 255, 255, .2);
+		}
+
+		&.close:hover {
+			background-color: red
+		}
+	}
+}
+
+.img{
+	min-width: 10px;
+	min-height: 10px;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	background-size: contain !important;
+}
